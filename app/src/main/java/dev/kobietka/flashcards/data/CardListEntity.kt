@@ -11,7 +11,6 @@ data class CardListEntity(@PrimaryKey val id: Int?,
                           @ColumnInfo val count: Int,
                           @ColumnInfo val endless: Boolean,
                           @ColumnInfo val typingAnswer: Boolean,
-                          @ColumnInfo val randomOrder: Boolean,
-                          @ColumnInfo val flashcards: List<Flashcard>)
+                          @ColumnInfo val randomOrder: Boolean)
 
 
