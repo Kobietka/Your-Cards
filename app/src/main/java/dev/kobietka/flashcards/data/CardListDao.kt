@@ -1,5 +1,6 @@
 package dev.kobietka.flashcards.data
 
+import io.reactivex.Observable
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -19,5 +20,8 @@ interface CardListDao {
 
     @Delete
     fun deleteOneList(cardList: CardListEntity)
+
+    @Query("SELECT id from cardList")
+    fun getIdsList(): Observable<List<Int>>
 
 }
