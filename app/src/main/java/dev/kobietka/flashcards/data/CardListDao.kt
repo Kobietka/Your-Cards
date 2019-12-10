@@ -24,4 +24,7 @@ interface CardListDao {
     @Query("SELECT id from cardList")
     fun getIdsList(): Observable<List<Int>>
 
+    @Query("SELECT * FROM cardList where id = :id")
+    fun getById(id: Int): Observable<CardListEntity>
+
 }
