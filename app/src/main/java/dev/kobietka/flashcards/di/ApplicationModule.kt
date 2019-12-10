@@ -7,11 +7,11 @@ import dagger.Provides
 import javax.inject.Named
 
 @Module
-class ApplicationModule(val context: Application) {
+class ApplicationModule(private val application: Application) {
 
     @Provides
     @Named("ApplicationContext")
     fun provideApplicationContext(): Context{
-        return context
+        return application
     }
 }

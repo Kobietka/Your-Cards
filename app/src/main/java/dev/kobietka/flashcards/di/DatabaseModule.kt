@@ -1,6 +1,7 @@
 package dev.kobietka.flashcards.di
 
 import android.app.Application
+import android.content.Context
 import androidx.room.Room
 import dagger.Module
 import dagger.Provides
@@ -10,12 +11,12 @@ import dev.kobietka.flashcards.data.FlashcardDao
 import javax.inject.Named
 import javax.inject.Singleton
 
-@Module
-class DatabaseModule(@Named("ApplicationContext") val context: Application) {
+@Module(includes = [ApplicationModule::class])
+class DatabaseModule {
 
     @Provides
     @Singleton
-    fun provideDatabase(): AppDatabase{
+    fun provideDatabase(@Named("ApplicationContext") context: Context): AppDatabase{
         return Room.databaseBuilder(
             context,
             AppDatabase::class.java,
