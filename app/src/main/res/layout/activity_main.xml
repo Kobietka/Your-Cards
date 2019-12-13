@@ -6,9 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:id="@+id/rv_main"/>
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment_main"
+        android:name="dev.kobietka.flashcards.presentation.ui.fragmentmain.MainFragment"/>
 
 </RelativeLayout>

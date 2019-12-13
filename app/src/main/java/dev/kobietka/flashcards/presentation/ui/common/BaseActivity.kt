@@ -1,4 +1,4 @@
-package dev.kobietka.flashcards.presentation.ui
+package dev.kobietka.flashcards.presentation.ui.common
 
 import androidx.appcompat.app.AppCompatActivity
 import dev.kobietka.flashcards.App
