@@ -7,7 +7,9 @@ import dev.kobietka.flashcards.di.DaggerApplicationComponent
 
 class App : Application() {
 
-    lateinit var applicationComponent: ApplicationComponent
+    companion object {
+        lateinit var applicationComponent: ApplicationComponent
+    }
 
     override fun onCreate() {
         super.onCreate()

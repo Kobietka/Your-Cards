@@ -7,4 +7,5 @@ import javax.inject.Singleton
 @Component(modules = [ApplicationModule::class, DatabaseModule::class])
 interface ApplicationComponent{
     fun presentationComponent(presentationModule: PresentationModule): PresentationComponent
+
 }

@@ -24,6 +24,7 @@ class DatabaseModule {
         ).fallbackToDestructiveMigration().build()
     }
 
+
     @Provides
     fun provideCardListDao(appDatabase: AppDatabase): CardListDao {
         return appDatabase.cardListDao()

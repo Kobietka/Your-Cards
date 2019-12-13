@@ -10,9 +10,7 @@
     <stroke android:color="@color/colorPrimaryLight"
         android:width="1dp"/>
 
-    <padding
-        android:right="5dp"
-        android:bottom="5dp"/>
+
 
     <corners
         android:radius="20dp"/>
