@@ -8,6 +8,6 @@ import dev.kobietka.flashcards.di.PresentationModule
 
 abstract class BaseActivity : AppCompatActivity() {
     protected val presentationComponent: PresentationComponent by lazy {
-        (application as App).applicationComponent.presentationComponent(PresentationModule(this))
+        App.applicationComponent.presentationComponent(PresentationModule(this))
     }
 }
