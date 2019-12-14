@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/fragment_add_list">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp">
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:src="@drawable/ic_close_24px"
+            android:backgroundTint="@android:color/transparent"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"/>
+
+        <Button
+            android:layout_width="103dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:text="Create"
+            android:fontFamily="sans-serif"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryLight"
+            android:textSize="20sp"
+            android:layout_centerVertical="true"
+            android:background="@drawable/button_add_layout" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:orientation="horizontal"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="20dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:src="@drawable/ic_edit_43px" />
+
+        <EditText
+            android:layout_width="335dp"
+            android:layout_height="36dp"
+            android:lines="1"
+            android:hint="List name"
+            android:layout_marginStart="20dp"
+            android:textSize="20sp"
+            android:background="@android:color/transparent" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="20dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_line"
+            android:backgroundTint="@android:color/transparent"/>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="20dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_endless_text"
+            android:layout_alignParentStart="true"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switch_endless"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:textColorHighlight="@color/colorPrimaryLight" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="20dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_typing_answer"
+            android:layout_alignParentStart="true"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:id="@+id/switch_typing"
+            android:layout_alignParentEnd="true"
+            android:textColorHighlight="@color/colorPrimaryLight"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="20dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_random_order"
+            android:layout_alignParentStart="true"/>
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:id="@+id/switch_random_order"
+            android:layout_alignParentEnd="true"
+            android:textColorHighlight="@color/colorPrimaryLight"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="22dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_line"
+            android:backgroundTint="@android:color/transparent"/>
+
+    </LinearLayout>
+
+</LinearLayout>

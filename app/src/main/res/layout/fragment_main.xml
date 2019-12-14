@@ -7,31 +7,14 @@
     android:background="@android:color/white"
     tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+
+    <ImageView
         android:id="@+id/text_your_cards"
-        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp">
-
-        <TextView
-            android:id="@+id/text_your"
-            android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:text="Your"
-            android:textColor="@android:color/black"
-            android:textSize="40sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cards"
-            android:textColor="@color/colorPrimaryLight"
-            android:textSize="40sp"
-            android:id="@+id/text_cards"/>
-
-    </LinearLayout>
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/ic_yourcardstext" />
 
     <Button
         android:id="@+id/button_add"

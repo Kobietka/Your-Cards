@@ -6,10 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <fragment
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/fragment_main"
-        android:name="dev.kobietka.flashcards.presentation.ui.fragmentmain.MainFragment"/>
+        android:id="@+id/main_container">
+
+
+    </FrameLayout>
 
 </RelativeLayout>

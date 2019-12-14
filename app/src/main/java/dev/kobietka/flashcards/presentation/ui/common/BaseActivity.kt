@@ -1,6 +1,7 @@
 package dev.kobietka.flashcards.presentation.ui.common
 
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentActivity
 import dev.kobietka.flashcards.App
 import dev.kobietka.flashcards.di.PresentationComponent
 import dev.kobietka.flashcards.di.PresentationModule
