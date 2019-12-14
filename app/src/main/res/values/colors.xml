@@ -5,5 +5,6 @@
     <color name="colorPrimaryLight">#67DAFF</color>
     <color name="colorInactive">#8e8e8e</color>
     <color name="colorSelected">#ff7043</color>
-    <color name="colorAccent">#c63f17</color>
+    <color name="colorAccent">#03A9F4</color>
+    <color name="colorAccent2">#c63f17</color>
 </resources>
