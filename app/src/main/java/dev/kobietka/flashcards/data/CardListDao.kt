@@ -10,7 +10,7 @@ import androidx.room.Query
 interface CardListDao {
 
     @Query("SELECT * from cardList")
-    fun getAllLists(): List<CardListEntity>
+    fun getAllLists(): Observable<List<CardListEntity>>
 
     @Insert
     fun insertList(cardList: CardListEntity)
@@ -20,6 +20,9 @@ interface CardListDao {
 
     @Delete
     fun deleteOneList(cardList: CardListEntity)
+
+    @Query("DELETE FROM cardList where id = :id")
+    fun deleteById(id: Int)
 
     @Query("SELECT id from cardList")
     fun getIdsList(): Observable<List<Int>>

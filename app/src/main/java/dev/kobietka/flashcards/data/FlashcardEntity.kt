@@ -8,4 +8,4 @@ import androidx.room.PrimaryKey
 data class FlashcardEntity(@PrimaryKey val id: Int?,
                            @ColumnInfo val shownWord: String,
                            @ColumnInfo val hiddenWord: String,
-                           @ColumnInfo val listId: Int)
+                           @ColumnInfo val listName: String)

@@ -8,7 +8,7 @@ import javax.inject.Inject
 class ListViewModel
 @Inject constructor(val listDao: CardListDao){
 
-    val ids = BehaviorSubject.create<Int>().toSerialized()
+    private val ids = BehaviorSubject.create<Int>().toSerialized()
 
     fun switchIds(id: Int){
         ids.onNext(id)
@@ -17,7 +17,7 @@ class ListViewModel
     val listName: Observable<String>
         get() = ids
             .switchMap { id -> listDao.getById(id) }
-            .map { it.name}
+            .map { it.name }
 
     val cardCount: Observable<Int>
         get() = ids

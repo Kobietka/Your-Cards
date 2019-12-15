@@ -19,7 +19,7 @@ class FlashcardViewHolder(itemView: View, val viewModel: FlashcardViewModel) : R
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                itemView.findViewById<TextView>(R.id.text_hidden_word_entry)
+                itemView.findViewById<TextView>(R.id.text_shown_word_entry).text = it
             }
         )
 
@@ -28,7 +28,7 @@ class FlashcardViewHolder(itemView: View, val viewModel: FlashcardViewModel) : R
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    itemView.findViewById<TextView>(R.id.text_shown_word_entry)
+                    itemView.findViewById<TextView>(R.id.text_hidden_word_entry).text = it
                 }
         )
     }

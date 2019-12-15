@@ -8,10 +8,10 @@ import javax.inject.Inject
 class FlashcardViewModel
 @Inject constructor(val flashcardDao: FlashcardDao){
 
-    val ids = BehaviorSubject.create<Int>().toSerialized()
+    private val ids = BehaviorSubject.create<Int>().toSerialized()
 
-    fun switchId(id: Int){
-        ids.onNext(id)
+    fun switchId(id: Int?){
+        ids.onNext(id!!)
     }
 
     val hiddenWord: Observable<String>

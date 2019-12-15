@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.kobietka.flashcards.R
+import dev.kobietka.flashcards.data.CardListDao
+import dev.kobietka.flashcards.data.CardListEntity
 import dev.kobietka.flashcards.presentation.ui.common.BaseFragment
 import dev.kobietka.flashcards.presentation.ui.fragmentaddlist.AddListFragment
 import dev.kobietka.flashcards.presentation.ui.rvs.MainAdapter
@@ -17,6 +19,8 @@ class MainFragment: BaseFragment() {
     lateinit var recyclerView: RecyclerView
     @Inject lateinit var adapter: MainAdapter
     lateinit var addButton: Button
+
+    @Inject lateinit var listDao: CardListDao
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

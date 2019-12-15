@@ -10,7 +10,7 @@ import io.reactivex.Observable
 interface FlashcardDao {
 
     @Query("SELECT * from flashcards")
-    fun getAllCards(): List<FlashcardEntity>
+    fun getAllCards(): Observable<List<FlashcardEntity>>
 
     @Insert
     fun insertFlashcard(flashcardEntity: FlashcardEntity)
@@ -23,6 +23,12 @@ interface FlashcardDao {
 
     @Query("SELECT * FROM flashcards where id = :id")
     fun getById(id: Int): Observable<FlashcardEntity>
+
+    @Query("DELETE FROM flashcards where id = :id")
+    fun deleteById(id: Int?)
+
+    @Query("DELETE FROM flashcards where listName = :listName")
+    fun deleteByListName(listName: String)
 
     @Delete
     fun deleteOneFlashcard(flashcardEntity: FlashcardEntity)

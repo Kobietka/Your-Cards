@@ -16,7 +16,8 @@ import javax.inject.Provider
 
 class MainAdapter
 @Inject constructor(val listDao: CardListDao,
-                    private val listViewModelProvider: Provider<ListViewModel>): RecyclerView.Adapter<ListViewHolder>() {
+                    private val listViewModelProvider: Provider<ListViewModel>)
+    : RecyclerView.Adapter<ListViewHolder>() {
 
     var idList = listOf<Int>()
     val compositeDisposable = CompositeDisposable()

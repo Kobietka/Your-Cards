@@ -21,7 +21,7 @@ class DatabaseModule {
             context,
             AppDatabase::class.java,
             "app_database"
-        ).fallbackToDestructiveMigration().build()
+        ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
     }
 
 

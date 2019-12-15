@@ -19,7 +19,7 @@ class ListViewHolder(itemView: View, val viewModel: ListViewModel) : RecyclerVie
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    itemView.findViewById<TextView>(R.id.name_list)
+                    itemView.findViewById<TextView>(R.id.name_list).text = it
                 }
         )
 
@@ -28,7 +28,7 @@ class ListViewHolder(itemView: View, val viewModel: ListViewModel) : RecyclerVie
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    itemView.findViewById<TextView>(R.id.count_cards)
+                    itemView.findViewById<TextView>(R.id.count_cards).text = it.toString()
                 }
         )
     }
