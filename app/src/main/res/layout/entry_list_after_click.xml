@@ -4,7 +4,8 @@
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="70dp"
     android:layout_margin="10dp"
-    android:background="@drawable/entry_list_background">
+    android:background="@drawable/entry_list_background"
+    android:id="@+id/entry_list_after_click">
 
     <TextView
         android:layout_width="wrap_content"
@@ -18,8 +19,8 @@
         android:layout_centerVertical="true"/>
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:id="@+id/count_and_icon"
         android:layout_alignParentEnd="true"
         android:orientation="horizontal">
@@ -36,24 +37,14 @@
             android:textSize="20sp" />
 
         <ImageView
-            android:id="@+id/settings_icon"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="10dp"
-            android:visibility="gone"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="25dp"
-            android:src="@drawable/ic_settings_icon" />
-
-        <ImageView
             android:id="@+id/cards_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_centerVertical="true"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/ic_cards_icon" />
+            android:layout_marginStart="10dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="25dp"
+            android:src="@drawable/ic_settings_icon" />
     </RelativeLayout>
 
 </RelativeLayout>

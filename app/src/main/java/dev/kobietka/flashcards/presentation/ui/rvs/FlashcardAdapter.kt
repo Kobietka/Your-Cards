@@ -3,6 +3,7 @@ package dev.kobietka.flashcards.presentation.ui.rvs
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import dev.kobietka.flashcards.R
 import dev.kobietka.flashcards.data.FlashcardDao

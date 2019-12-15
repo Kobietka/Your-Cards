@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,36 +8,42 @@
     android:background="@android:color/white"
     tools:context=".MainActivity">
 
-
-    <ImageView
-        android:id="@+id/text_your_cards"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_yourcardstext" />
-
-    <Button
-        android:id="@+id/button_add"
-        android:layout_width="103dp"
-        android:layout_height="40dp"
-        android:layout_below="@+id/text_your_cards"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="19dp"
-        android:background="@drawable/button_add_layout"
-        android:text="Add"
-        android:textAllCaps="false"
-        android:textColor="@color/colorPrimaryLight"
-        android:textSize="20sp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_height="match_parent"
-        android:layout_margin="10dp"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_below="@+id/button_add"
-        android:id="@+id/rv_main"
-        tools:listitem="@layout/entry_list"/>
+        android:layout_height="match_parent">
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/text_your_cards"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_yourcardstext" />
+
+        <Button
+            android:id="@+id/button_add"
+            android:layout_width="103dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/text_your_cards"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="19dp"
+            android:background="@drawable/button_add_layout"
+            android:text="Add"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryLight"
+            android:textSize="20sp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/button_add"
+            android:id="@+id/rv_main"
+            tools:listitem="@layout/entry_list"/>
+
+    </RelativeLayout>
+
+
+</androidx.core.widget.NestedScrollView>
