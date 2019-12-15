@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_marginBottom="7dp"
+    android:id="@+id/entry_flashcard"
+    android:background="@drawable/entry_list_background">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Shown word"
+        android:layout_marginStart="10dp"
+        android:textSize="17sp"
+        android:textColor="@android:color/white"
+        android:fontFamily="sans-serif"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/text_shown_word_entry"/>
+
+    <TextView
+        android:textSize="17sp"
+        android:layout_marginEnd="10dp"
+        android:textColor="@android:color/white"
+        android:fontFamily="sans-serif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hidden word"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/text_hidden_word_entry"/>
+
+</RelativeLayout>

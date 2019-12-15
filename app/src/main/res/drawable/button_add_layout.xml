@@ -10,8 +10,6 @@
     <stroke android:color="@color/colorPrimaryLight"
         android:width="1dp"/>
 
-
-
     <corners
         android:radius="20dp"/>
 </shape>
