@@ -10,10 +10,12 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.kobietka.flashcards.R
 import dev.kobietka.flashcards.data.CardListDao
 import dev.kobietka.flashcards.presentation.onclickhandler.OnClickHandler
+import dev.kobietka.flashcards.presentation.ui.fragmenteditlist.EditListFragment
 import dev.kobietka.flashcards.presentation.viewmodel.ListViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import kotlinx.android.synthetic.main.entry_list.view.*
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -34,10 +36,14 @@ class MainAdapter
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.entry_list, parent, false)
+        val viewModel = listViewModelProvider.get()
         view.setOnClickListener {
             onClickHandler.changeFocus(it)
         }
-        return ListViewHolder(view, listViewModelProvider.get())
+        view.findViewById<ImageView>(R.id.settings_icon).setOnClickListener {
+            viewModel.toggClick()
+        }
+        return ListViewHolder(view, viewModel)
     }
 
     override fun getItemCount(): Int {
