@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import dev.kobietka.flashcards.R
 import dev.kobietka.flashcards.data.CardListDao
+import dev.kobietka.flashcards.presentation.onclickhandler.OnClickHandler
 import dev.kobietka.flashcards.presentation.viewmodel.ListViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -23,6 +24,7 @@ class MainAdapter
 
     var idList = listOf<Int>()
     val compositeDisposable = CompositeDisposable()
+    val onClickHandler = OnClickHandler()
 
     private fun updateList(idsList: List<Int>){
         idList = idsList
@@ -32,6 +34,9 @@ class MainAdapter
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ListViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.entry_list, parent, false)
+        view.setOnClickListener {
+            onClickHandler.changeFocus(it)
+        }
         return ListViewHolder(view, listViewModelProvider.get())
     }
 

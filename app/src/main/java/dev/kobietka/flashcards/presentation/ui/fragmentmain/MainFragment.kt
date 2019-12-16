@@ -27,7 +27,7 @@ class MainFragment: BaseFragment() {
         presentationComponent.inject(this)
 
         recyclerView = view.findViewById(R.id.rv_main)
-        recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+        recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false) as RecyclerView.LayoutManager?
         recyclerView.adapter = adapter
 
         addButton = view.findViewById(R.id.button_add)
