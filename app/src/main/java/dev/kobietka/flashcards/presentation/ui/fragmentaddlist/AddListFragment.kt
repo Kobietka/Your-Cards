@@ -60,16 +60,13 @@ class AddListFragment : BaseFragment() {
 
         createButton.setOnClickListener {
             val listNameText = listName.text.toString()
-            val endless = when(endlessSwitch.text){"ON" -> true else -> false }
-            val random = when(randomSwitch.text){"ON" -> true else -> false }
-            val typing = when(typingSwitch.text){"ON" -> true else -> false }
             listDao.insertList(CardListEntity(
                 null,
                 listNameText,
                 flashcardsCount,
-                endless,
-                typing,
-                random
+                endlessSwitch.isChecked,
+                typingSwitch.isChecked,
+                randomSwitch.isChecked
             ))
 
             flashcardsList.forEach {

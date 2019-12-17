@@ -4,6 +4,7 @@ import io.reactivex.Observable
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
+import androidx.appcompat.widget.SwitchCompat
 import dev.kobietka.flashcards.R
 import dev.kobietka.flashcards.data.CardListDao
 import dev.kobietka.flashcards.presentation.ui.common.BaseFragment
@@ -16,6 +17,8 @@ class EditListFragment: BaseFragment() {
     @Inject lateinit var listDao: CardListDao
     val compositeDisposable = CompositeDisposable()
 
+    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presentationComponent.inject(this)
@@ -25,6 +28,9 @@ class EditListFragment: BaseFragment() {
                 listDao.findById(it)
             }.subscribe {
                 view.findViewById<EditText>(R.id.text_list_name_edit).setText(it.name)
+                view.findViewById<SwitchCompat>(R.id.switch_endless_edit).isChecked = it.endless
+                view.findViewById<SwitchCompat>(R.id.switch_random_order_edit).isChecked = it.randomOrder
+                view.findViewById<SwitchCompat>(R.id.switch_typing_edit).isChecked = it.typingAnswer
             }
         )
     }
