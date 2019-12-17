@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import io.reactivex.Maybe
 
 @Dao
 interface CardListDao {
@@ -29,5 +30,8 @@ interface CardListDao {
 
     @Query("SELECT * FROM cardList where id = :id")
     fun getById(id: Int): Observable<CardListEntity>
+
+    @Query("SELECT * FROM cardList where id = :id")
+    fun findById(id: Int): Maybe<CardListEntity>
 
 }

@@ -64,7 +64,7 @@
             android:imeOptions="actionDone"
             android:inputType="text"
             android:hint="List name"
-            android:id="@+id/text_list_name"
+            android:id="@+id/text_list_name_edit"
             android:layout_marginStart="20dp"
             android:textSize="20sp"
             android:background="@android:color/transparent" />
@@ -100,7 +100,7 @@
             android:layout_alignParentStart="true"/>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switch_endless"
+            android:id="@+id/switch_endless_edit"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:textOn="ON"
@@ -128,7 +128,7 @@
         <androidx.appcompat.widget.SwitchCompat
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:id="@+id/switch_typing"
+            android:id="@+id/switch_typing_edit"
             android:textOn="ON"
             android:textOff="OFF"
             android:textColor="@android:color/transparent"
@@ -154,7 +154,7 @@
         <androidx.appcompat.widget.SwitchCompat
             android:layout_width="wrap_content"
             android:layout_height="40dp"
-            android:id="@+id/switch_random_order"
+            android:id="@+id/switch_random_order_edit"
             android:textOn="ON"
             android:textOff="OFF"
             android:textColor="@android:color/transparent"
@@ -194,7 +194,7 @@
         <EditText
             android:layout_width="335dp"
             android:layout_height="36dp"
-            android:id="@+id/text_shown_word"
+            android:id="@+id/text_shown_word_edit"
             android:hint="Shown word"
             android:maxLines="1"
             android:imeOptions="actionNext"
@@ -223,7 +223,7 @@
             android:layout_width="335dp"
             android:layout_height="36dp"
             android:maxLines="1"
-            android:id="@+id/text_hidden_word"
+            android:id="@+id/text_hidden_word_edit"
             android:hint="Hidden word"
             android:maxLength="40"
             android:imeOptions="actionDone"
@@ -245,7 +245,7 @@
             android:layout_height="42dp"
             android:textSize="20sp"
             android:text="Add"
-            android:id="@+id/button_add_flashcard"
+            android:id="@+id/button_add_flashcard_edit"
             android:padding="0dp"
             android:textAllCaps="false"
             android:fontFamily="sans-serif"
@@ -283,7 +283,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:nestedScrollingEnabled="false"
-            android:id="@+id/recycler_add_list"
+            android:id="@+id/recycler_add_list_edit"
             tools:listitem="@layout/entry_flashcard"
             />
 

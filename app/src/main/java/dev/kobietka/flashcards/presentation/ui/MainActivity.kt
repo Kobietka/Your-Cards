@@ -5,12 +5,14 @@ import dev.kobietka.flashcards.presentation.ui.common.BaseActivity
 import dev.kobietka.flashcards.presentation.ui.fragmenteditlist.EditListFragment
 import dev.kobietka.flashcards.presentation.ui.fragmentmain.MainFragment
 import io.reactivex.Observable
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 
 class MainActivity : BaseActivity() {
 
     @Inject lateinit var launchEvents: Observable<Int>
+    val compositeDisposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,7 +21,9 @@ class MainActivity : BaseActivity() {
         supportFragmentManager.beginTransaction()
             .add(R.id.main_container, MainFragment())
             .commit()
-        launchEvents.subscribe(this::launch)
+        compositeDisposable.add(
+            launchEvents.subscribe(this::launch)
+        )
     }
 
     fun launch(id: Int) {

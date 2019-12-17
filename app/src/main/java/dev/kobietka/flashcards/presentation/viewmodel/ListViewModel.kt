@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 class ListViewModel
 @Inject constructor(val listDao: CardListDao,
-                    val launchEventsSubject: Subject<Int>){
+                    private val launchEventsSubject: Subject<Int>){
 
     private val ids = BehaviorSubject.create<Int>().toSerialized()
     private val clicks = BehaviorSubject.create<Int>().toSerialized()

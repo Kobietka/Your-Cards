@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Named
@@ -21,7 +22,7 @@ class ApplicationModule(private val application: Application) {
     @Singleton
     @Provides
     fun providesLaunchEventsSubject(): Subject<Int> {
-        return PublishSubject.create<Int>().toSerialized()
+        return BehaviorSubject.create<Int>().toSerialized()
     }
 
 }
