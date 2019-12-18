@@ -1,10 +1,9 @@
 package dev.kobietka.flashcards.data
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
+import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 
 @Dao
 interface FlashcardDao {
@@ -13,7 +12,7 @@ interface FlashcardDao {
     fun getAllCards(): Observable<List<FlashcardEntity>>
 
     @Insert
-    fun insertFlashcard(flashcardEntity: FlashcardEntity)
+    fun insertFlashcard(flashcardEntity: FlashcardEntity): Completable
 
     @Query("Delete from flashcards")
     fun deleteAllFlashcards()
@@ -27,9 +26,10 @@ interface FlashcardDao {
     @Query("DELETE FROM flashcards where id = :id")
     fun deleteById(id: Int?)
 
-    @Query("DELETE FROM flashcards where listName = :listName")
-    fun deleteByListName(listName: String)
+    @Query("SELECT * FROM flashcards where listId = :id")
+    fun getAllFlashcardsByListId(id: Int): Observable<List<FlashcardEntity>>
 
     @Delete
     fun deleteOneFlashcard(flashcardEntity: FlashcardEntity)
+
 }

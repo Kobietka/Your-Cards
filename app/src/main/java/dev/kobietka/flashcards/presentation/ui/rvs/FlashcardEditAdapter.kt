@@ -16,11 +16,11 @@ import javax.inject.Inject
 import javax.inject.Named
 import javax.inject.Provider
 
-class FlashcardAdapter
-    @Inject constructor(
-        private val viewModelProvider: Provider<FlashcardViewModel>,
-        val flashcardDao: FlashcardDao
-    ): RecyclerView.Adapter<FlashcardViewHolder>() {
+class FlashcardEditAdapter
+@Inject constructor(
+    private val viewModelProvider: Provider<FlashcardViewModel>,
+    val flashcardDao: FlashcardDao
+): RecyclerView.Adapter<FlashcardViewHolder>() {
 
     private var idsList: List<Int?> = listOf()
     private val compositeDisposable = CompositeDisposable()
@@ -52,9 +52,9 @@ class FlashcardAdapter
         super.onAttachedToRecyclerView(recyclerView)
         compositeDisposable.add(
             flashcardDao.getAllCards()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::updateIds)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::updateIds)
         )
     }
 

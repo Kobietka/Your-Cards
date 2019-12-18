@@ -32,8 +32,9 @@
             android:layout_width="103dp"
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
-            android:text="Create"
-            android:id="@+id/button_create_list"
+            android:text="Save"
+            android:visibility="gone"
+            android:id="@+id/button_save_list"
             android:fontFamily="sans-serif"
             android:textAllCaps="false"
             android:textColor="@color/colorPrimaryLight"
@@ -179,16 +180,40 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/button_create_list_add"
+        android:layout_marginTop="20dp">
+
+        <Button
+            android:id="@+id/button_create_list"
+            android:layout_width="103dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="130dp"
+            android:background="@drawable/button_add_layout"
+            android:fontFamily="sans-serif"
+            android:text="Create"
+            android:textAllCaps="false"
+            android:textColor="@color/colorPrimaryLight"
+            android:textSize="20sp"
+            android:visibility="visible" />
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:orientation="horizontal"
+        android:id="@+id/shown_word_layout"
         android:layout_marginStart="22dp"
         android:layout_marginEnd="20dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="35dp"
+            android:visibility="gone"
+            android:id="@+id/arrow_shown_word"
             android:src="@drawable/ic_keyboard_arrow_right_43px" />
 
         <EditText
@@ -197,6 +222,7 @@
             android:id="@+id/text_shown_word"
             android:hint="Shown word"
             android:maxLines="1"
+            android:visibility="gone"
             android:imeOptions="actionNext"
             android:inputType="text"
             android:maxLength="40"
@@ -211,12 +237,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
         android:orientation="horizontal"
+        android:id="@+id/hidden_word_layout"
         android:layout_marginStart="22dp"
         android:layout_marginEnd="20dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="35dp"
+            android:id="@+id/arrow_hidden_word"
+            android:visibility="gone"
             android:src="@drawable/ic_keyboard_arrow_right_43px" />
 
         <EditText
@@ -226,6 +255,7 @@
             android:id="@+id/text_hidden_word"
             android:hint="Hidden word"
             android:maxLength="40"
+            android:visibility="gone"
             android:imeOptions="actionDone"
             android:inputType="text"
             android:layout_marginStart="14dp"
@@ -248,6 +278,7 @@
             android:id="@+id/button_add_flashcard"
             android:padding="0dp"
             android:textAllCaps="false"
+            android:visibility="gone"
             android:fontFamily="sans-serif"
             android:textColor="@color/colorPrimaryLight"
             android:textAlignment="center"
@@ -280,12 +311,11 @@
         android:layout_marginEnd="20dp">
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_add_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:nestedScrollingEnabled="false"
-            android:id="@+id/recycler_add_list"
-            tools:listitem="@layout/entry_flashcard"
-            />
+            tools:listitem="@layout/entry_flashcard" />
 
     </FrameLayout>
 

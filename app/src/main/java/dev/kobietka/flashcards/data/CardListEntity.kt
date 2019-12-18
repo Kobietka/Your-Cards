@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 import dev.kobietka.flashcards.domain.models.Flashcard
 
 @Entity(tableName = "cardList")
-data class CardListEntity(@PrimaryKey val id: Int?,
+data class CardListEntity(@PrimaryKey(autoGenerate = true) val id: Int?,
                           @ColumnInfo val name: String,
                           @ColumnInfo val count: Int,
                           @ColumnInfo val endless: Boolean,
