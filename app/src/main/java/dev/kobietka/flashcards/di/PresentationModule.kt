@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dev.kobietka.flashcards.presentation.ui.common.BaseActivity
 import dev.kobietka.flashcards.presentation.ui.common.BaseFragment
+import dev.kobietka.flashcards.presentation.ui.common.ClickInfo
 import io.reactivex.subjects.Subject
 import javax.inject.Named
 
@@ -25,15 +26,9 @@ class PresentationModule(private val baseActivity: BaseActivity? = null, private
     }
 
     @Provides
-    @Named("TogglEvents")
-    fun providesTogglLaunchEvents(@Named("TogglSubject") subject: Subject<Int>): Observable<Int> {
+    fun providesTogglLaunchEvents(subject: Subject<ClickInfo>): Observable<ClickInfo> {
         return subject
     }
 
-    @Provides
-    @Named("PlayEvents")
-    fun providesPlayLaunchEvents(@Named("PlaySubject") subject: Subject<Int>): Observable<Int> {
-        return subject
-    }
 
 }

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
+import dev.kobietka.flashcards.presentation.ui.common.ClickInfo
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
@@ -21,16 +22,9 @@ class ApplicationModule(private val application: Application) {
 
     @Singleton
     @Provides
-    @Named("TogglSubject")
-    fun providesTogglEventsSubject(): Subject<Int> {
-        return BehaviorSubject.create<Int>().toSerialized()
+    fun providesEventsSubject(): Subject<ClickInfo> {
+        return BehaviorSubject.create<ClickInfo>().toSerialized()
     }
 
-    @Singleton
-    @Provides
-    @Named("PlaySubject")
-    fun providePlayEventsSubject(): Subject<Int> {
-        return BehaviorSubject.create<Int>().toSerialized()
-    }
 
 }

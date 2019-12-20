@@ -43,6 +43,9 @@ class MainAdapter
         view.findViewById<ImageView>(R.id.settings_icon).setOnClickListener {
             viewModel.toggClick()
         }
+        view.findViewById<ImageView>(R.id.play_icon).setOnClickListener {
+            viewModel.playClick()
+        }
         return ListViewHolder(view, viewModel)
     }
 

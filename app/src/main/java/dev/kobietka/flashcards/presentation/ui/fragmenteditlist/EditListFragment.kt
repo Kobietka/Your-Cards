@@ -14,6 +14,7 @@ import dev.kobietka.flashcards.data.CardListDao
 import dev.kobietka.flashcards.data.FlashcardDao
 import dev.kobietka.flashcards.data.FlashcardEntity
 import dev.kobietka.flashcards.presentation.ui.common.BaseFragment
+import dev.kobietka.flashcards.presentation.ui.common.ClickInfo
 import dev.kobietka.flashcards.presentation.ui.fragmentmain.MainFragment
 import dev.kobietka.flashcards.presentation.ui.rvs.FlashcardEditAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -23,7 +24,7 @@ import javax.inject.Inject
 
 class EditListFragment: BaseFragment() {
 
-    @Inject lateinit var launchEvents: Observable<Int>
+    @Inject lateinit var launchEvents: Observable<ClickInfo>
     @Inject lateinit var listDao: CardListDao
     @Inject lateinit var flashcardDao: FlashcardDao
     val compositeDisposable = CompositeDisposable()
@@ -57,7 +58,7 @@ class EditListFragment: BaseFragment() {
 
         compositeDisposable.add(
             launchEvents.flatMapMaybe {
-                listDao.findById(it)
+                listDao.findById(it.listId)
             }.subscribe {
                 listId = it.id!!
                 listNameEditText.setText(it.name)
