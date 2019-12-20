@@ -21,7 +21,15 @@ class ApplicationModule(private val application: Application) {
 
     @Singleton
     @Provides
-    fun providesLaunchEventsSubject(): Subject<Int> {
+    @Named("TogglSubject")
+    fun providesTogglEventsSubject(): Subject<Int> {
+        return BehaviorSubject.create<Int>().toSerialized()
+    }
+
+    @Singleton
+    @Provides
+    @Named("PlaySubject")
+    fun providePlayEventsSubject(): Subject<Int> {
         return BehaviorSubject.create<Int>().toSerialized()
     }
 

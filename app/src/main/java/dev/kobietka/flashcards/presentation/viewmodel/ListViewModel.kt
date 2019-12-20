@@ -1,22 +1,26 @@
 package dev.kobietka.flashcards.presentation.viewmodel
 
+import android.util.Log
 import dev.kobietka.flashcards.data.CardListDao
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
+import javax.inject.Named
 
 class ListViewModel
 @Inject constructor(val listDao: CardListDao,
-                    private val launchEventsSubject: Subject<Int>){
+                    @Named("TogglEventSubject") private val togglEventsSubject: Subject<Int>){
 
     private val ids = BehaviorSubject.create<Int>().toSerialized()
-    private val clicks = BehaviorSubject.create<Int>().toSerialized()
+    private val togglClicks = BehaviorSubject.create<Int>().toSerialized()
+    private val playClicks = BehaviorSubject.create<Int>().toSerialized()
 
     init {
-        clicks.withLatestFrom(ids, BiFunction<Int, Int, Unit> { _, id ->
-            launchEventsSubject.onNext(id)
+        togglClicks.withLatestFrom(ids, BiFunction<Int, Int, Unit> { _, id ->
+            togglEventsSubject.onNext(id)
+            Log.e("ID", id.toString())
         }).subscribe()
     }
 
@@ -24,8 +28,12 @@ class ListViewModel
         ids.onNext(id)
     }
 
+    fun playClick(){
+        togglClicks.onNext(0)
+    }
+
     fun toggClick(){
-        clicks.onNext(1)
+        togglClicks.onNext(1)
     }
 
     val listName: Observable<String>

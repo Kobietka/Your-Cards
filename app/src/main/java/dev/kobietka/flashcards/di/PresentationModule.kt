@@ -25,7 +25,14 @@ class PresentationModule(private val baseActivity: BaseActivity? = null, private
     }
 
     @Provides
-    fun providesLaunchEvents(subject: Subject<Int>): Observable<Int> {
+    @Named("TogglEvents")
+    fun providesTogglLaunchEvents(@Named("TogglSubject") subject: Subject<Int>): Observable<Int> {
+        return subject
+    }
+
+    @Provides
+    @Named("PlayEvents")
+    fun providesPlayLaunchEvents(@Named("PlaySubject") subject: Subject<Int>): Observable<Int> {
         return subject
     }
 
