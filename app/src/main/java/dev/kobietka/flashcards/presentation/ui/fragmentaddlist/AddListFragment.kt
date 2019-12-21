@@ -22,6 +22,7 @@ import dev.kobietka.flashcards.data.FlashcardEntity
 import dev.kobietka.flashcards.presentation.ui.common.BaseFragment
 import dev.kobietka.flashcards.presentation.ui.fragmentmain.MainFragment
 import dev.kobietka.flashcards.presentation.ui.rvs.FlashcardAdapter
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -67,7 +68,6 @@ class AddListFragment : BaseFragment() {
         addFlashcardButton = view.findViewById(R.id.button_add_flashcard)
         shownWord = view.findViewById(R.id.text_shown_word)
         hiddenWord = view.findViewById(R.id.text_hidden_word)
-
 
         createButton.setOnClickListener {
             val newID = listDao.insertList(CardListEntity(

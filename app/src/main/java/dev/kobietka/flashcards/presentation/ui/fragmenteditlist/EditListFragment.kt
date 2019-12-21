@@ -132,6 +132,7 @@ class EditListFragment: BaseFragment() {
             .subscribe()
     }
 
+
     override fun getLayout(): Int {
         return R.layout.fragment_edit_list
     }

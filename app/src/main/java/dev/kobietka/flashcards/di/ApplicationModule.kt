@@ -26,5 +26,11 @@ class ApplicationModule(private val application: Application) {
         return BehaviorSubject.create<ClickInfo>().toSerialized()
     }
 
+    @Singleton
+    @Provides
+    fun providesOtherEventsSubject(): Subject<Int>{
+        return BehaviorSubject.create<Int>().toSerialized()
+    }
+
 
 }

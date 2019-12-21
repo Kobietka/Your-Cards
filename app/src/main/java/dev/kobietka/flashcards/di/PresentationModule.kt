@@ -30,5 +30,10 @@ class PresentationModule(private val baseActivity: BaseActivity? = null, private
         return subject
     }
 
+    @Provides
+    fun provideDeleteLaunchEvents(otherSubject: Subject<Int>): Observable<Int>{
+        return otherSubject
+    }
+
 
 }

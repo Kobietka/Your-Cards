@@ -1,17 +1,17 @@
 package dev.kobietka.flashcards.presentation.viewmodel
 
-import android.util.Log
 import dev.kobietka.flashcards.data.CardListDao
+import dev.kobietka.flashcards.data.FlashcardDao
 import dev.kobietka.flashcards.presentation.ui.common.ClickInfo
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
-import javax.inject.Named
 
 class ListViewModel
 @Inject constructor(val listDao: CardListDao,
+                    val flashcardDao: FlashcardDao,
                     private val eventsSubject: Subject<ClickInfo>){
 
     private val ids = BehaviorSubject.create<Int>().toSerialized()
@@ -48,6 +48,6 @@ class ListViewModel
 
     val cardCount: Observable<Int>
         get() = ids
-            .switchMap { id -> listDao.getById(id) }
-            .map { it.count }
+            .switchMap { id -> flashcardDao.getCardsCountByListId(id) }
+
 }

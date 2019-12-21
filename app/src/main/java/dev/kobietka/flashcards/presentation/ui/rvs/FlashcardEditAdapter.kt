@@ -1,6 +1,7 @@
 package dev.kobietka.flashcards.presentation.ui.rvs
 
 import android.content.Context
+import android.media.Image
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.kobietka.flashcards.R
 import dev.kobietka.flashcards.data.FlashcardDao
 import dev.kobietka.flashcards.data.FlashcardEntity
+import dev.kobietka.flashcards.presentation.onclickhandler.OnClickHandler
 import dev.kobietka.flashcards.presentation.viewmodel.FlashcardViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -25,6 +27,7 @@ class FlashcardEditAdapter
     private var idsList: List<Int?> = listOf()
     private val compositeDisposable = CompositeDisposable()
     var listId = 0
+    val clickHandler = OnClickHandler()
 
     private fun updateIds(newList: List<FlashcardEntity>){
         val goodIds = newList.filter {
@@ -37,7 +40,14 @@ class FlashcardEditAdapter
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FlashcardViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.entry_flashcard, parent, false)
-        return FlashcardViewHolder(view, viewModelProvider.get())
+        val viewModel = viewModelProvider.get()
+        view.setOnClickListener {
+            clickHandler.changeFocusFlashcard(it)
+        }
+        view.findViewById<ImageView>(R.id.entry_flashcard_delete).setOnClickListener {
+            viewModel.deleteClick()
+        }
+        return FlashcardViewHolder(view, viewModel)
     }
 
     override fun getItemCount(): Int {

@@ -9,15 +9,22 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.kobietka.flashcards.R
 import dev.kobietka.flashcards.data.CardListDao
 import dev.kobietka.flashcards.data.CardListEntity
+import dev.kobietka.flashcards.data.FlashcardDao
 import dev.kobietka.flashcards.presentation.ui.common.BaseFragment
+import dev.kobietka.flashcards.presentation.ui.common.ClickInfo
 import dev.kobietka.flashcards.presentation.ui.fragmentaddlist.AddListFragment
 import dev.kobietka.flashcards.presentation.ui.rvs.MainAdapter
+import io.reactivex.Observable
+import io.reactivex.Scheduler
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class MainFragment: BaseFragment() {
 
     lateinit var recyclerView: RecyclerView
     @Inject lateinit var adapter: MainAdapter
+    @Inject lateinit var flashcardDao: FlashcardDao
     lateinit var addButton: Button
 
     @Inject lateinit var listDao: CardListDao
@@ -27,7 +34,7 @@ class MainFragment: BaseFragment() {
         presentationComponent.inject(this)
 
         recyclerView = view.findViewById(R.id.rv_main)
-        recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false) as RecyclerView.LayoutManager?
+        recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         recyclerView.adapter = adapter
 
         addButton = view.findViewById(R.id.button_add)
@@ -39,6 +46,7 @@ class MainFragment: BaseFragment() {
                 ?.commit()
         }
     }
+
 
     override fun getLayout(): Int {
         return R.layout.fragment_main

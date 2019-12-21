@@ -24,12 +24,15 @@ interface FlashcardDao {
     fun getById(id: Int): Observable<FlashcardEntity>
 
     @Query("DELETE FROM flashcards where id = :id")
-    fun deleteById(id: Int?)
+    fun deleteById(id: Int?): Completable
 
     @Query("SELECT * FROM flashcards where listId = :id")
     fun getAllFlashcardsByListId(id: Int): Observable<List<FlashcardEntity>>
 
     @Delete
     fun deleteOneFlashcard(flashcardEntity: FlashcardEntity)
+
+    @Query("SELECT COUNT(*) from flashcards WHERE listId = :id")
+    fun getCardsCountByListId(id: Int): Observable<Int>
 
 }
