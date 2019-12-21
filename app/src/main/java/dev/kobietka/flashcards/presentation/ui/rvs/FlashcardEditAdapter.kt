@@ -30,7 +30,7 @@ class FlashcardEditAdapter
         val goodIds = newList.filter {
             it.listId == listId
         }.map { it.id }
-        idsList = goodIds
+        idsList = goodIds.reversed()
         this.notifyDataSetChanged()
     }
 

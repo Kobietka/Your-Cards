@@ -29,7 +29,7 @@ class MainAdapter
     val onClickHandler = OnClickHandler()
 
     private fun updateList(idsList: List<Int>){
-        idList = idsList
+        idList = idsList.reversed()
         this.notifyDataSetChanged()
     }
 

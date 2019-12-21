@@ -26,6 +26,7 @@
             android:layout_marginStart="15dp"
             android:layout_toEndOf="@+id/play_close"
             android:fontFamily="sans-serif"
+            android:id="@+id/play_list_name"
             android:text="List Name"
             android:textColor="@color/colorPrimaryLight"
             android:textSize="25sp" />
@@ -46,9 +47,21 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:text="Word"
+            android:id="@+id/play_shown_word"
             android:textColor="@android:color/black"
             android:textSize="25sp"
+            android:fontFamily="sans-serif"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:id="@+id/play_count"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="20dp"
+            android:textColor="@color/colorPrimaryLight"
+            android:textSize="20sp"
             android:fontFamily="sans-serif"/>
 
     </RelativeLayout>
@@ -60,17 +73,30 @@
         android:layout_marginEnd="10dp"
         android:layout_weight="40"
         android:layout_marginTop="20dp"
+        android:id="@+id/play_hidden_word"
         android:background="@drawable/button_add_layout">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tap to check the word"
+            android:text="Tap here to start"
             android:textColor="@color/colorPrimaryLight"
             android:textSize="25sp"
+            android:id="@+id/play_hidden_word_text"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:fontFamily="sans-serif"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Write answer here"
+            android:id="@+id/play_enter_word"
+            android:imeOptions="actionGo"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="25sp"
+            android:visibility="gone"/>
 
     </RelativeLayout>
 
@@ -85,6 +111,7 @@
                 android:layout_height="47dp"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
+                android:id="@+id/play_not_correct"
                 android:background="@drawable/button_add_layout"
                 android:layout_marginEnd="10dp">
 
@@ -95,7 +122,32 @@
                     android:layout_centerHorizontal="true"
                     android:src="@drawable/ic_close_24px"/>
 
+
             </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="140dp"
+            android:layout_height="47dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/play_end_button"
+            android:visibility="gone"
+            android:background="@drawable/button_add_layout"
+            android:layout_marginEnd="10dp">
+
+            <TextView
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="End"
+                android:id="@+id/play_end_text"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif"
+                android:textColor="@android:color/black"/>
+
+
+        </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="140dp"
@@ -103,6 +155,7 @@
                 android:background="@drawable/button_add_layout"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
+                android:id="@+id/play_correct"
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp">
 
