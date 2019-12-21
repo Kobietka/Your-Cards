@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_marginTop="80dp"
+        android:layout_height="132dp"
+        android:id="@+id/results_stars"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/results_stars"
+        android:textColor="@android:color/black"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/results_text"
+        android:fontFamily="sans-serif"
+        android:textSize="25sp"/>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/results_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your score is "
+            android:id="@+id/results_score_static"
+            android:fontFamily="sans-serif"
+            android:textColor="@android:color/black"
+            android:textSize="25sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/results_score"
+            android:text="20/24"
+            android:textSize="25sp"
+            android:textColor="@color/colorPrimaryLight"
+            android:fontFamily="sans-serif"
+            android:layout_toEndOf="@+id/results_score_static"/>
+    </RelativeLayout>
+
+
+
+    <RelativeLayout
+        android:layout_width="130dp"
+        android:layout_height="50dp"
+        android:id="@+id/results_back_button"
+        android:background="@drawable/button_add_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="70dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="Back"
+            android:textColor="@color/colorPrimaryLight"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -16,6 +16,7 @@ import dev.kobietka.flashcards.data.FlashcardEntity
 import dev.kobietka.flashcards.presentation.ui.common.BaseFragment
 import dev.kobietka.flashcards.presentation.ui.common.ClickInfo
 import dev.kobietka.flashcards.presentation.ui.fragmentmain.MainFragment
+import dev.kobietka.flashcards.presentation.ui.fragmentresults.ResultFragment
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -42,6 +43,7 @@ class PlayFragment : BaseFragment() {
     private var listId = 0
     private var cardCount = 0
     private var count = 0
+    private var countGuessed = 0
     private var random = false
     private var typing = false
     private var endless = false
@@ -75,7 +77,7 @@ class PlayFragment : BaseFragment() {
         compositeDisposable.add(
             events.flatMapMaybe {
                 Log.e("LISTID", it.listId.toString())
-                listDao.findById(it.listId)
+                listDao.findById(it.listId!!)
             }.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
@@ -96,10 +98,12 @@ class PlayFragment : BaseFragment() {
 
 
         correctButton.setOnClickListener {
+            countGuessed++
             onCorrectAnswer()
         }
 
         notCorrectButton.setOnClickListener {
+            countGuessed++
             onNotCorrectAnswer()
         }
 
@@ -110,14 +114,19 @@ class PlayFragment : BaseFragment() {
             }
             if(endless) {
                 endText.isGone = false
-                notCorrectButton.isGone = true
                 endButton.isGone = false
             }
             onHiddenClick()
         }
 
         endButton.setOnClickListener {
-
+            val resultFragment = ResultFragment()
+            resultFragment.score = correctAnswers
+            if(endless) resultFragment.maxScore = countGuessed
+            else resultFragment.maxScore = cardCount
+            activity!!.supportFragmentManager.beginTransaction()
+                .replace(R.id.main_container, resultFragment)
+                .commit()
         }
 
         closeButton.setOnClickListener {
@@ -131,6 +140,7 @@ class PlayFragment : BaseFragment() {
     private fun onCorrectAnswer(){
         count++
         if(!typing) {
+            correctAnswers++
             if(endless && count == cardCount) {
                 count = 0
                 if(random) flashcardList = flashcardList.shuffled(Random(245657345))
@@ -140,8 +150,12 @@ class PlayFragment : BaseFragment() {
                 hiddenWordText.text = "Tap here to check"
                 countText.text = (count + 1).toString() + "/" + cardCount.toString()
             } else {
+                val resultFragment = ResultFragment()
+                resultFragment.score = correctAnswers
+                if(endless) resultFragment.maxScore = countGuessed
+                else resultFragment.maxScore = cardCount
                 activity!!.supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_container, MainFragment())
+                    .replace(R.id.main_container, resultFragment)
                     .commit()
             }
         } else {
@@ -159,8 +173,12 @@ class PlayFragment : BaseFragment() {
                 countText.text = (count + 1).toString() + "/" + cardCount.toString()
             } else {
                 Log.e("CORRECT", correctAnswers.toString())
+                val resultFragment = ResultFragment()
+                resultFragment.score = correctAnswers
+                if(endless) resultFragment.maxScore = countGuessed
+                else resultFragment.maxScore = cardCount
                 activity!!.supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_container, MainFragment())
+                    .replace(R.id.main_container, resultFragment)
                     .commit()
             }
         }
@@ -177,8 +195,12 @@ class PlayFragment : BaseFragment() {
             hiddenWordText.text = "Tap here to check"
             countText.text = (count + 1).toString() + "/" + cardCount.toString()
         } else {
+            val resultFragment = ResultFragment()
+            resultFragment.score = correctAnswers
+            if(endless) resultFragment.maxScore = countGuessed
+            else resultFragment.maxScore = cardCount
             activity!!.supportFragmentManager.beginTransaction()
-                .replace(R.id.main_container, MainFragment())
+                .replace(R.id.main_container, resultFragment)
                 .commit()
         }
     }
