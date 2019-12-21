@@ -20,7 +20,7 @@ class ListViewModel
 
     init {
         togglClicks.withLatestFrom(ids, BiFunction<Int, Int, Unit> { clickId, listId ->
-            eventsSubject.onNext(ClickInfo(listId, clickId ))
+            eventsSubject.onNext(ClickInfo(listId, clickId))
             //Log.e("ID", xd.toString())
         }).subscribe()
         playClicks.withLatestFrom(ids, BiFunction<Int, Int, Unit> { clickId, listId ->
