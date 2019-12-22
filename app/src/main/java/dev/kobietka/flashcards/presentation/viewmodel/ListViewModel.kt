@@ -17,20 +17,27 @@ class ListViewModel
     private val ids = BehaviorSubject.create<Int>().toSerialized()
     private val togglClicks = BehaviorSubject.create<Int>().toSerialized()
     private val playClicks = BehaviorSubject.create<Int>().toSerialized()
+    private val deleteSwipe = BehaviorSubject.create<Int>().toSerialized()
+    var lastItemId = 0
 
     init {
         togglClicks.withLatestFrom(ids, BiFunction<Int, Int, Unit> { clickId, listId ->
             eventsSubject.onNext(ClickInfo(listId, clickId))
-            //Log.e("ID", xd.toString())
         }).subscribe()
         playClicks.withLatestFrom(ids, BiFunction<Int, Int, Unit> { clickId, listId ->
             eventsSubject.onNext(ClickInfo(listId, clickId))
-            //Log.e("ID", xd.toString())
+        }).subscribe()
+        deleteSwipe.withLatestFrom(ids, BiFunction<Int, Int, Unit> { clickId, listId ->
+            listDao.deleteById(listId)
         }).subscribe()
     }
 
     fun switchIds(id: Int){
         ids.onNext(id)
+    }
+
+    fun deleteOnSwipe(){
+        deleteSwipe.onNext(2)
     }
 
     fun playClick(){

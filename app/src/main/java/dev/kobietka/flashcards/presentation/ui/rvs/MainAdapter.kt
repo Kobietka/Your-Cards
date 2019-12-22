@@ -28,7 +28,7 @@ class MainAdapter
     val compositeDisposable = CompositeDisposable()
     val onClickHandler = OnClickHandler()
 
-    private fun updateList(idsList: List<Int>){
+    fun updateList(idsList: List<Int>){
         idList = idsList.reversed()
         this.notifyDataSetChanged()
     }
