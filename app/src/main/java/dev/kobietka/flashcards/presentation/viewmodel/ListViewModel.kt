@@ -3,6 +3,7 @@ package dev.kobietka.flashcards.presentation.viewmodel
 import dev.kobietka.flashcards.data.CardListDao
 import dev.kobietka.flashcards.data.FlashcardDao
 import dev.kobietka.flashcards.presentation.ui.common.ClickInfo
+import io.reactivex.Completable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
@@ -27,9 +28,9 @@ class ListViewModel
         playClicks.withLatestFrom(ids, BiFunction<Int, Int, Unit> { clickId, listId ->
             eventsSubject.onNext(ClickInfo(listId, clickId))
         }).subscribe()
-        deleteSwipe.withLatestFrom(ids, BiFunction<Int, Int, Unit> { clickId, listId ->
+        deleteSwipe.withLatestFrom(ids, BiFunction<Int, Int, Completable> { clickId, listId ->
             listDao.deleteById(listId)
-        }).subscribe()
+        }).flatMapCompletable { it }.subscribe()
     }
 
     fun switchIds(id: Int){
