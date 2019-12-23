@@ -43,7 +43,11 @@ class ResultFragment : BaseFragment() {
             starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_stars2_icon))
         }
         else if(division <= 1.0) {
-            staticText.text = "Almost Perfect"
+            staticText.text = "Almost Perfect!"
+            starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_stars3_icon))
+        }
+        else if(division == 1.0) {
+            staticText.text = "Perfect!"
             starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_stars3_icon))
         }
 
