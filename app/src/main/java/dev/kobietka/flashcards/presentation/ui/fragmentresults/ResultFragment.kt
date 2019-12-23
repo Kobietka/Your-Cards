@@ -1,5 +1,6 @@
 package dev.kobietka.flashcards.presentation.ui.fragmentresults
 
+import android.animation.ObjectAnimator
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.core.view.isGone
 import dev.kobietka.flashcards.R
 import dev.kobietka.flashcards.presentation.ui.common.BaseFragment
 import dev.kobietka.flashcards.presentation.ui.fragmentmain.MainFragment
@@ -32,6 +34,11 @@ class ResultFragment : BaseFragment() {
 
         scoreText.text = " $score/$maxScore"
 
+        ObjectAnimator.ofFloat(scoreText, View.ALPHA, 0f, 1f).apply {
+            duration = 500
+        }.start()
+        scoreText.isGone = false
+
         when {
             division < 0.5 -> {
                 staticText.text = "You will do better next time!"
@@ -53,6 +60,11 @@ class ResultFragment : BaseFragment() {
                 starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_3stars))
             }
         }
+
+        ObjectAnimator.ofFloat(backButton, View.ALPHA, 0f, 1f).apply {
+            duration = 500
+        }.start()
+        backButton.isGone = false
 
         backButton.setOnClickListener {
             Log.e("SCORE", score.toString())

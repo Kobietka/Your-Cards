@@ -42,6 +42,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/results_score"
             android:text="20/24"
+            android:visibility="gone"
             android:textSize="25sp"
             android:textColor="@color/colorPrimaryLight"
             android:fontFamily="sans-serif"
@@ -56,6 +57,7 @@
         android:id="@+id/results_back_button"
         android:background="@drawable/button_add_layout"
         android:layout_centerHorizontal="true"
+        android:visibility="gone"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="70dp">
 

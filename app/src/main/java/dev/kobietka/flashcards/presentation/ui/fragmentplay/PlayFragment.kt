@@ -1,5 +1,6 @@
 package dev.kobietka.flashcards.presentation.ui.fragmentplay
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
@@ -48,6 +49,7 @@ class PlayFragment : BaseFragment() {
     private var typing = false
     private var endless = false
     private var wasShuffled = false
+    private var firstTimeEndless = true
     private var flashcardList = listOf<FlashcardEntity>()
 
     private var correctAnswers = 0
@@ -124,8 +126,13 @@ class PlayFragment : BaseFragment() {
                     wasShuffled = true
                 }
                 if(endless) {
-                    endText.isGone = false
-                    endButton.isGone = false
+                    if(firstTimeEndless){
+                        ObjectAnimator.ofFloat(endButton, View.ALPHA, 0f, 1f).apply {
+                            duration = 500
+                        }.start()
+                        endButton.isGone = false
+                        firstTimeEndless = false
+                    }
                 }
                 onHiddenClick()
             }
@@ -160,7 +167,16 @@ class PlayFragment : BaseFragment() {
                 if(random) flashcardList = flashcardList.shuffled(Random(245657345))
             }
             if (count < cardCount) {
+
+                ObjectAnimator.ofFloat(shownWord, View.ALPHA, 1f, 0f).apply {
+                    duration = 500
+                }.start()
                 shownWord.text = flashcardList[count].shownWord
+
+                ObjectAnimator.ofFloat(shownWord, View.ALPHA, 0f, 1f).apply {
+                    duration = 500
+                }.start()
+
                 hiddenWordText.text = "Tap here to check"
                 if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
             } else {
@@ -185,7 +201,17 @@ class PlayFragment : BaseFragment() {
                 if(random) flashcardList = flashcardList.shuffled(Random(245657345))
             }
             if(count < cardCount){
+
+                ObjectAnimator.ofFloat(shownWord, View.ALPHA, 1f, 0f).apply {
+                    duration = 500
+                }.start()
+
                 shownWord.text = flashcardList[count].shownWord
+
+                ObjectAnimator.ofFloat(shownWord, View.ALPHA, 0f, 1f).apply {
+                    duration = 500
+                }.start()
+
                 if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
             } else {
                 Log.e("CORRECT", correctAnswers.toString())
@@ -227,21 +253,64 @@ class PlayFragment : BaseFragment() {
         cardCount = flashcardList.size
         if(typing) {
             //if(random) flashcardList = flashcardList.shuffled(Random(466754))
+            ObjectAnimator.ofFloat(shownWord, View.ALPHA, 1f, 0f).apply {
+                duration = 500
+            }.start()
             shownWord.text = flashcardList[count].shownWord
+            ObjectAnimator.ofFloat(shownWord, View.ALPHA, 0f, 1f).apply {
+                duration = 500
+            }.start()
             if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
+
+            ObjectAnimator.ofFloat(hiddenWordText, View.ALPHA, 1f, 0f).apply {
+                duration = 500
+            }.start()
             hiddenWordText.isGone = true
+
+            ObjectAnimator.ofFloat(enterText, View.ALPHA, 0f, 1f).apply {
+                duration = 500
+            }.start()
             enterText.isGone = false
+
+            ObjectAnimator.ofFloat(notCorrectButton, View.ALPHA, 1f, 0f).apply {
+                duration = 500
+            }.start()
             notCorrectButton.isGone = true
+
+            ObjectAnimator.ofFloat(correctButton, View.ALPHA, 1f, 0f).apply {
+                duration = 500
+            }.start()
             correctButton.isGone = true
+
+            ObjectAnimator.ofFloat(typingCorrectButton, View.ALPHA, 0f, 1f).apply {
+                duration = 500
+            }.start()
             typingCorrectButton.isGone = false
         } else if(!typing){
             //hiddenWordText.text = "Tap here to check"
             if(count < cardCount){
                 if(firstHiddenUse){
+
+                    ObjectAnimator.ofFloat(correctButton, View.ALPHA, 0f, 1f).apply {
+                        duration = 500
+                    }.start()
                     correctButton.isGone = false
+
+                    ObjectAnimator.ofFloat(notCorrectButton, View.ALPHA, 0f, 1f).apply {
+                        duration = 500
+                    }.start()
                     notCorrectButton.isGone = false
+
                     Log.e("HIDDENCLICKED", "FIRSTTIME")
+
+                    ObjectAnimator.ofFloat(shownWord, View.ALPHA, 1f, 0f).apply {
+                        duration = 500
+                    }.start()
                     shownWord.text = flashcardList[count].shownWord
+                    ObjectAnimator.ofFloat(shownWord, View.ALPHA, 0f, 1f).apply {
+                        duration = 500
+                    }.start()
+
                     hiddenWordText.text = "Tap here to check"
                     if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
                     hiddenClicked = false
@@ -249,13 +318,27 @@ class PlayFragment : BaseFragment() {
                 } else {
                     if (!hiddenClicked) {
                         Log.e("HIDDENCLICKED", "FALSE")
+
                         shownWord.text = flashcardList[count].shownWord
+
+                        ObjectAnimator.ofFloat(hiddenWordText, View.ALPHA, 1f, 0f).apply {
+                            duration = 500
+                        }.start()
                         hiddenWordText.text = flashcardList[count].hiddenWord
+                        ObjectAnimator.ofFloat(hiddenWordText, View.ALPHA, 0f, 1f).apply {
+                            duration = 500
+                        }.start()
                         if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
                         hiddenClicked = true
                     } else {
                         Log.e("HIDDENCLICKED", "TRUE")
+                        ObjectAnimator.ofFloat(hiddenWordText, View.ALPHA, 1f, 0f).apply {
+                            duration = 500
+                        }.start()
                         hiddenWordText.text = "Tap here to check"
+                        ObjectAnimator.ofFloat(hiddenWordText, View.ALPHA, 0f, 1f).apply {
+                            duration = 500
+                        }.start()
                         hiddenClicked = false
                     }
                 }

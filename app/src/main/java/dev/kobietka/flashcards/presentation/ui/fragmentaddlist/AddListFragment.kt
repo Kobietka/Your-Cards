@@ -1,5 +1,6 @@
 package dev.kobietka.flashcards.presentation.ui.fragmentaddlist
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
@@ -83,12 +84,32 @@ class AddListFragment : BaseFragment() {
             Log.e("LISTID", newID.toString())
             adapter.setCardListId(listId.toInt())
 
+            ObjectAnimator.ofFloat(saveButton, View.ALPHA, 0f, 1f).apply {
+                duration = 500
+            }.start()
             saveButton.isGone = false
+
+            ObjectAnimator.ofFloat(createButton, View.ALPHA, 1f, 0f).apply {
+                duration = 500
+            }.start()
             createButton.isGone = true
+
+            ObjectAnimator.ofFloat(addFlashcardButton, View.ALPHA, 0f, 1f).apply {
+                duration = 500
+            }.start()
             addFlashcardButton.isGone = false
+
             view.findViewById<ImageView>(R.id.arrow_shown_word).isGone = false
             view.findViewById<ImageView>(R.id.arrow_hidden_word).isGone = false
+
+            ObjectAnimator.ofFloat(shownWord, View.ALPHA, 0f, 1f).apply {
+                duration = 500
+            }.start()
             shownWord.isGone = false
+
+            ObjectAnimator.ofFloat(hiddenWord, View.ALPHA, 0f, 1f).apply {
+                duration = 500
+            }.start()
             hiddenWord.isGone = false
         }
 

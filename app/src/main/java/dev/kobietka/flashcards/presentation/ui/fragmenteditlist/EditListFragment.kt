@@ -82,7 +82,7 @@ class EditListFragment: BaseFragment() {
             updateList(listId)
 
             activity?.supportFragmentManager?.beginTransaction()
-                ?.setCustomAnimations(R.anim.enter_right_to_left, R.anim.exit_right_to_left)
+                ?.setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
                 ?.replace(R.id.main_container, MainFragment())
                 ?.addToBackStack(null)
                 ?.commit()

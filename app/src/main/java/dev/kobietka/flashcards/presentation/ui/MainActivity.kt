@@ -31,13 +31,13 @@ class MainActivity : BaseActivity() {
     fun launch(clickInfo: ClickInfo) {
         if(clickInfo.clickId == 0){
             supportFragmentManager.beginTransaction()
-                ?.setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
+                .setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
                 .replace(R.id.main_container, PlayFragment())
                 .addToBackStack(null)
                 .commit()
         } else if (clickInfo.clickId == 1){
             supportFragmentManager.beginTransaction()
-                ?.setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
+                .setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
                 .replace(R.id.main_container, EditListFragment())
                 .addToBackStack(null)
                 .commit()
