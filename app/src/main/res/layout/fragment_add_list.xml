@@ -226,7 +226,7 @@
             android:visibility="gone"
             android:imeOptions="actionNext"
             android:inputType="text"
-            android:maxLength="40"
+            android:maxLength="29"
             android:layout_marginStart="14dp"
             android:textSize="20sp"
             android:background="@android:color/transparent" />
@@ -255,7 +255,7 @@
             android:maxLines="1"
             android:id="@+id/text_hidden_word"
             android:hint="Hidden word"
-            android:maxLength="40"
+            android:maxLength="29"
             android:visibility="gone"
             android:imeOptions="actionDone"
             android:inputType="text"
