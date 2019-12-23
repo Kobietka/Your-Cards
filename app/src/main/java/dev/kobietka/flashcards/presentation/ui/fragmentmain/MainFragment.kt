@@ -4,24 +4,18 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import dev.kobietka.flashcards.R
 import dev.kobietka.flashcards.data.CardListDao
-import dev.kobietka.flashcards.data.CardListEntity
 import dev.kobietka.flashcards.data.FlashcardDao
 import dev.kobietka.flashcards.presentation.swipetodeletecallback.SwipeToDeleteCallback
 import dev.kobietka.flashcards.presentation.ui.common.BaseFragment
-import dev.kobietka.flashcards.presentation.ui.common.ClickInfo
 import dev.kobietka.flashcards.presentation.ui.fragmentaddlist.AddListFragment
 import dev.kobietka.flashcards.presentation.ui.rvs.ListViewHolder
 import dev.kobietka.flashcards.presentation.ui.rvs.MainAdapter
-import io.reactivex.Observable
-import io.reactivex.Scheduler
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class MainFragment: BaseFragment() {
@@ -44,8 +38,13 @@ class MainFragment: BaseFragment() {
         @SuppressLint("CheckResult")
         val swipeHandler = object : SwipeToDeleteCallback(activity!!){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val adapter = recyclerView.adapter as MainAdapter
+                //val adapter = recyclerView.adapter as MainAdapter
                 (viewHolder as ListViewHolder).viewModel.deleteOnSwipe()
+                val snackbar = Snackbar.make( view, "List has been deleted!", Snackbar.LENGTH_LONG)
+                snackbar.setAction("Undo", View.OnClickListener {
+                    (viewHolder as ListViewHolder).viewModel.reCreateList()
+                })
+                snackbar.show()
             }
         }
 
@@ -56,6 +55,7 @@ class MainFragment: BaseFragment() {
         addButton.setOnClickListener {
             activity?.supportFragmentManager
                 ?.beginTransaction()
+                ?.setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
                 ?.replace(R.id.main_container, AddListFragment())
                 ?.addToBackStack(null)
                 ?.commit()

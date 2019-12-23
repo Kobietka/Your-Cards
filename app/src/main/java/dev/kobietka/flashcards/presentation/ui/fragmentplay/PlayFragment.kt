@@ -137,12 +137,14 @@ class PlayFragment : BaseFragment() {
             if(endless) resultFragment.maxScore = countGuessed
             else resultFragment.maxScore = cardCount
             activity!!.supportFragmentManager.beginTransaction()
+                ?.setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
                 .replace(R.id.main_container, resultFragment)
                 .commit()
         }
 
         closeButton.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()
+                ?.setCustomAnimations(R.anim.enter_top_to_bottom, R.anim.exit_top_to_bottom)
                 ?.replace(R.id.main_container, MainFragment())
                 ?.commit()
         }
@@ -167,6 +169,7 @@ class PlayFragment : BaseFragment() {
                 if(endless) resultFragment.maxScore = countGuessed
                 else resultFragment.maxScore = cardCount
                 activity!!.supportFragmentManager.beginTransaction()
+                    ?.setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
                     .replace(R.id.main_container, resultFragment)
                     .commit()
             }
@@ -191,6 +194,7 @@ class PlayFragment : BaseFragment() {
                 if(endless) resultFragment.maxScore = countGuessed
                 else resultFragment.maxScore = cardCount
                 activity!!.supportFragmentManager.beginTransaction()
+                    ?.setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
                     .replace(R.id.main_container, resultFragment)
                     .commit()
             }
@@ -213,6 +217,7 @@ class PlayFragment : BaseFragment() {
             if(endless) resultFragment.maxScore = countGuessed
             else resultFragment.maxScore = cardCount
             activity!!.supportFragmentManager.beginTransaction()
+                ?.setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
                 .replace(R.id.main_container, resultFragment)
                 .commit()
         }

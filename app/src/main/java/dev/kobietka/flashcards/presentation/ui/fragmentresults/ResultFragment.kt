@@ -59,6 +59,7 @@ class ResultFragment : BaseFragment() {
             Log.e("MAXSCORE", maxScore.toString())
             Log.e("SCORE?MAX",(score.toDouble()/maxScore).toString() )
             activity?.supportFragmentManager?.beginTransaction()
+                ?.setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right)
                 ?.replace(R.id.main_container, MainFragment())
                 ?.commit()
         }

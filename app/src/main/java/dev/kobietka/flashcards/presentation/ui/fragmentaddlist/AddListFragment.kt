@@ -95,6 +95,7 @@ class AddListFragment : BaseFragment() {
         saveButton.setOnClickListener {
             updateList(listId.toInt())
             activity?.supportFragmentManager?.beginTransaction()
+                ?.setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
                 ?.replace(R.id.main_container, MainFragment())
                 ?.addToBackStack(null)
                 ?.commit()
@@ -119,6 +120,7 @@ class AddListFragment : BaseFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe()
             activity?.supportFragmentManager?.beginTransaction()
+                ?.setCustomAnimations(R.anim.enter_top_to_bottom, R.anim.exit_top_to_bottom)
                 ?.replace(R.id.main_container, MainFragment())
                 ?.addToBackStack(null)
                 ?.commit()
