@@ -19,7 +19,13 @@ class ListViewHolder(itemView: View, val viewModel: ListViewModel) : RecyclerVie
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    itemView.findViewById<TextView>(R.id.name_list).text = it
+                    if(it.length > 21){
+                        val first = it.subSequence(0, 21)
+                        val second = "..."
+                        itemView.findViewById<TextView>(R.id.name_list).text = "$first$second"
+                    } else {
+                        itemView.findViewById<TextView>(R.id.name_list).text = it
+                    }
                 }
         )
 

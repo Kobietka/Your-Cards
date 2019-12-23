@@ -98,7 +98,7 @@ class EditListFragment: BaseFragment() {
                 )
             ).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
+                .subscribe(this::clearEditTexts)
         }
 
         closeButton.setOnClickListener {
@@ -132,6 +132,10 @@ class EditListFragment: BaseFragment() {
             .subscribe()
     }
 
+    private fun clearEditTexts(){
+        shownWord.text.clear()
+        hiddenWord.text.clear()
+    }
 
     override fun getLayout(): Int {
         return R.layout.fragment_edit_list

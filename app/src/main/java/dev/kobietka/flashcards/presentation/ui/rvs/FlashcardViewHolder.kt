@@ -19,7 +19,13 @@ class FlashcardViewHolder(itemView: View, val viewModel: FlashcardViewModel) : R
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                itemView.findViewById<TextView>(R.id.text_shown_word_entry).text = it
+                if(it.length > 28){
+                    val first = it.subSequence(0, 28)
+                    val second = "..."
+                    itemView.findViewById<TextView>(R.id.text_shown_word_entry).text = "$first$second"
+                } else {
+                    itemView.findViewById<TextView>(R.id.text_shown_word_entry).text = it
+                }
             }
         )
 
@@ -28,7 +34,13 @@ class FlashcardViewHolder(itemView: View, val viewModel: FlashcardViewModel) : R
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    itemView.findViewById<TextView>(R.id.text_hidden_word_entry).text = it
+                    if(it.length > 28){
+                        val first = it.subSequence(0, 28)
+                        val second = "..."
+                        itemView.findViewById<TextView>(R.id.text_hidden_word_entry).text = "$first$second"
+                    } else {
+                        itemView.findViewById<TextView>(R.id.text_hidden_word_entry).text = it
+                    }
                 }
         )
     }

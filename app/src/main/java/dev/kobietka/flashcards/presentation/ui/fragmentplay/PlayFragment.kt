@@ -40,6 +40,7 @@ class PlayFragment : BaseFragment() {
     private lateinit var endButton: RelativeLayout
 
     private var hiddenClicked = false
+    private var firstHiddenUse = true
     private var listId = 0
     private var cardCount = 0
     private var count = 0
@@ -98,6 +99,8 @@ class PlayFragment : BaseFragment() {
 
 
         correctButton.setOnClickListener {
+            hiddenClicked = false
+            enterText.text.clear()
             countGuessed++
             onCorrectAnswer()
         }
@@ -148,7 +151,7 @@ class PlayFragment : BaseFragment() {
             if (count < cardCount) {
                 shownWord.text = flashcardList[count].shownWord
                 hiddenWordText.text = "Tap here to check"
-                countText.text = (count + 1).toString() + "/" + cardCount.toString()
+                if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
             } else {
                 val resultFragment = ResultFragment()
                 resultFragment.score = correctAnswers
@@ -170,7 +173,7 @@ class PlayFragment : BaseFragment() {
             }
             if(count < cardCount){
                 shownWord.text = flashcardList[count].shownWord
-                countText.text = (count + 1).toString() + "/" + cardCount.toString()
+                if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
             } else {
                 Log.e("CORRECT", correctAnswers.toString())
                 val resultFragment = ResultFragment()
@@ -193,7 +196,7 @@ class PlayFragment : BaseFragment() {
         if (count < cardCount) {
             shownWord.text = flashcardList[count].shownWord
             hiddenWordText.text = "Tap here to check"
-            countText.text = (count + 1).toString() + "/" + cardCount.toString()
+            if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
         } else {
             val resultFragment = ResultFragment()
             resultFragment.score = correctAnswers
@@ -210,27 +213,51 @@ class PlayFragment : BaseFragment() {
         if(typing) {
             //if(random) flashcardList = flashcardList.shuffled(Random(466754))
             shownWord.text = flashcardList[count].shownWord
-            countText.text = (count + 1).toString() + "/" + cardCount.toString()
+            if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
             hiddenWordText.isGone = true
             enterText.isGone = false
         } else if(!typing){
-            hiddenWordText.text = "Tap here to check"
+            //hiddenWordText.text = "Tap here to check"
             if(count < cardCount){
-                if (!hiddenClicked) {
+                if(firstHiddenUse){
+                    Log.e("HIDDENCLICKED", "FIRSTTIME")
                     shownWord.text = flashcardList[count].shownWord
-                    countText.text = (count + 1).toString() + "/" + cardCount.toString()
+                    hiddenWordText.text = "Tap here to check"
+                    if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
+                    hiddenClicked = false
+                    firstHiddenUse = false
+                } else {
+                    if (!hiddenClicked) {
+                        Log.e("HIDDENCLICKED", "FALSE")
+                        shownWord.text = flashcardList[count].shownWord
+                        hiddenWordText.text = flashcardList[count].hiddenWord
+                        if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
+                        hiddenClicked = true
+                    } else {
+                        Log.e("HIDDENCLICKED", "TRUE")
+                        hiddenWordText.text = "Tap here to check"
+                        hiddenClicked = false
+                    }
+                }
+                /*if (!hiddenClicked) {
+                    Log.e("HIDDENCLICKED", "FALSE")
+                    shownWord.text = flashcardList[count].shownWord
+                    if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
                     hiddenClicked = true
                 } else {
+                    Log.e("HIDDENCLICKED", "TRUE")
                     hiddenWordText.text = flashcardList[count].hiddenWord
                     hiddenClicked = false
-                }
+                }*/
             } else {
+                Log.e("HIDDENCLICKED", "???")
                 hiddenWordText.text = flashcardList[count].hiddenWord
             }
         } else {
+            Log.e("QUESTION", "czy tos ie odpala")
             if(count < cardCount){
                 shownWord.text = flashcardList[count].shownWord
-                countText.text = (count + 1).toString() + "/" + cardCount.toString()
+                if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
             }
         }
     }

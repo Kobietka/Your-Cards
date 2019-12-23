@@ -36,7 +36,7 @@
             android:visibility="gone"
             android:layout_marginTop="35dp"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="25dp"
+            android:layout_marginEnd="20dp"
             android:src="@drawable/ic_settings_icon" />
 
         <ImageView
@@ -47,7 +47,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="75dp"
+            android:layout_marginEnd="60dp"
             android:src="@drawable/ic_play_icon"
             android:visibility="gone" />
 
@@ -67,6 +67,7 @@
         android:id="@+id/name_list"
         android:layout_marginStart="10dp"
         android:textSize="20sp"
+        android:text="List name"
         android:layout_alignParentStart="true"
         android:fontFamily="sans-serif"
         android:textColor="@android:color/white"

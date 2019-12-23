@@ -110,11 +110,14 @@ class AddListFragment : BaseFragment() {
                 listId.toInt()
             )).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
+                .subscribe(this::clearEditTexts)
         }
 
         cancelButton.setOnClickListener {
-
+            if(flashcardsCount == 0) listDao.deleteById(listId.toInt())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe()
             activity?.supportFragmentManager?.beginTransaction()
                 ?.replace(R.id.main_container, MainFragment())
                 ?.addToBackStack(null)
@@ -147,6 +150,11 @@ class AddListFragment : BaseFragment() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe()
+    }
+
+    private fun clearEditTexts(){
+        shownWord.text.clear()
+        hiddenWord.text.clear()
     }
 
     private fun setId(id: Long){
