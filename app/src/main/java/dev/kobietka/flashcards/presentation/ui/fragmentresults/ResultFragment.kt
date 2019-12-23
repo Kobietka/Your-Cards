@@ -38,19 +38,19 @@ class ResultFragment : BaseFragment() {
             }
             division < 0.75 -> {
                 staticText.text = "Nice!"
-                starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_stars1_icon))
+                starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_1stars))
             }
             division < 0.9 -> {
                 staticText.text = "Very good!"
-                starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_stars2_icon))
+                starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_2stars))
             }
             division < 1.0 -> {
                 staticText.text = "Almost Perfect!"
-                starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_stars3_icon))
+                starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_3stars))
             }
             division == 1.0 -> {
                 staticText.text = "Perfect!"
-                starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_stars3_icon))
+                starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_3stars))
             }
         }
 
