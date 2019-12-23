@@ -4,11 +4,9 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.RelativeLayout
-import android.widget.TextView
+import android.widget.*
 import androidx.core.view.isGone
+import com.google.android.material.snackbar.Snackbar
 import dev.kobietka.flashcards.R
 import dev.kobietka.flashcards.data.CardListDao
 import dev.kobietka.flashcards.data.FlashcardDao
@@ -38,6 +36,7 @@ class PlayFragment : BaseFragment() {
     private lateinit var enterText: EditText
     private lateinit var endText: TextView
     private lateinit var endButton: RelativeLayout
+    private lateinit var typingCorrectButton: RelativeLayout
 
     private var hiddenClicked = false
     private var firstHiddenUse = true
@@ -74,6 +73,7 @@ class PlayFragment : BaseFragment() {
         enterText = view.findViewById(R.id.play_enter_word)
         endText = view.findViewById(R.id.play_end_text)
         endButton = view.findViewById(R.id.play_end_button)
+        typingCorrectButton = view.findViewById(R.id.play_correct_typing)
 
         compositeDisposable.add(
             events.flatMapMaybe {
@@ -100,7 +100,6 @@ class PlayFragment : BaseFragment() {
 
         correctButton.setOnClickListener {
             hiddenClicked = false
-            enterText.text.clear()
             countGuessed++
             onCorrectAnswer()
         }
@@ -110,16 +109,26 @@ class PlayFragment : BaseFragment() {
             onNotCorrectAnswer()
         }
 
+        typingCorrectButton.setOnClickListener {
+            hiddenClicked = false
+            countGuessed++
+            onCorrectAnswer()
+        }
+
         hiddenWord.setOnClickListener {
-            if(!wasShuffled) {
-                if(random) flashcardList = flashcardList.shuffled(Random(35446))
-                wasShuffled = true
+            if(cardCount == 0){
+                Snackbar.make(view, "Can not start, because the list is empty!", Snackbar.LENGTH_LONG).show()
+            } else {
+                if(!wasShuffled) {
+                    if(random) flashcardList = flashcardList.shuffled(Random(35446))
+                    wasShuffled = true
+                }
+                if(endless) {
+                    endText.isGone = false
+                    endButton.isGone = false
+                }
+                onHiddenClick()
             }
-            if(endless) {
-                endText.isGone = false
-                endButton.isGone = false
-            }
-            onHiddenClick()
         }
 
         endButton.setOnClickListener {
@@ -163,10 +172,11 @@ class PlayFragment : BaseFragment() {
             }
         } else {
             if(flashcardList[count - 1].hiddenWord == enterText.text.toString()) correctAnswers++
-            Log.e(flashcardList[count - 1].hiddenWord,"HIDDEN")
-            Log.e(enterText.text.toString(), "ENTERED")
+            Log.e("HIDDEN", flashcardList[count - 1].hiddenWord)
+            Log.e("ENTERED", enterText.text.toString())
             Log.e("COUNT", count.toString())
             Log.e("CORRECT", correctAnswers.toString())
+            enterText.text.clear()
             if(endless && count == cardCount) {
                 count = 0
                 if(random) flashcardList = flashcardList.shuffled(Random(245657345))
@@ -216,10 +226,15 @@ class PlayFragment : BaseFragment() {
             if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
             hiddenWordText.isGone = true
             enterText.isGone = false
+            notCorrectButton.isGone = true
+            correctButton.isGone = true
+            typingCorrectButton.isGone = false
         } else if(!typing){
             //hiddenWordText.text = "Tap here to check"
             if(count < cardCount){
                 if(firstHiddenUse){
+                    correctButton.isGone = false
+                    notCorrectButton.isGone = false
                     Log.e("HIDDENCLICKED", "FIRSTTIME")
                     shownWord.text = flashcardList[count].shownWord
                     hiddenWordText.text = "Tap here to check"

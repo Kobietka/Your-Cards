@@ -28,27 +28,30 @@ class ResultFragment : BaseFragment() {
         backButton = view.findViewById(R.id.results_back_button)
         staticText = view.findViewById(R.id.results_text)
 
-        val division = (score.toDouble()/maxScore)
+        val division = (score.toDouble()/maxScore.toDouble())
 
         scoreText.text = " $score/$maxScore"
-        if(division < 0.5) {
-            staticText.text = "You will do better next time!"
-        }
-        else if(division < 0.75) {
-            staticText.text = "Nice!"
-            starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_stars1_icon))
-        }
-        else if(division < 0.9) {
-            staticText.text = "Very good!"
-            starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_stars2_icon))
-        }
-        else if(division <= 1.0) {
-            staticText.text = "Almost Perfect!"
-            starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_stars3_icon))
-        }
-        else if(division == 1.0) {
-            staticText.text = "Perfect!"
-            starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_stars3_icon))
+
+        when {
+            division < 0.5 -> {
+                staticText.text = "You will do better next time!"
+            }
+            division < 0.75 -> {
+                staticText.text = "Nice!"
+                starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_stars1_icon))
+            }
+            division < 0.9 -> {
+                staticText.text = "Very good!"
+                starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_stars2_icon))
+            }
+            division < 1.0 -> {
+                staticText.text = "Almost Perfect!"
+                starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_stars3_icon))
+            }
+            division == 1.0 -> {
+                staticText.text = "Perfect!"
+                starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_stars3_icon))
+            }
         }
 
         backButton.setOnClickListener {

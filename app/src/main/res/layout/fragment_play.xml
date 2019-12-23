@@ -140,6 +140,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:id="@+id/play_not_correct"
+                android:visibility="gone"
                 android:background="@drawable/button_add_layout"
                 android:layout_marginEnd="10dp">
 
@@ -159,6 +160,7 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
                 android:id="@+id/play_correct"
+                android:visibility="gone"
                 android:layout_marginEnd="10dp"
                 android:layout_marginStart="10dp">
 
@@ -170,6 +172,25 @@
                     android:src="@drawable/ic_check_icon"/>
 
             </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/button_add_layout"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/play_correct_typing"
+            android:visibility="gone"
+            android:layout_marginEnd="10dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/ic_check_icon"/>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
