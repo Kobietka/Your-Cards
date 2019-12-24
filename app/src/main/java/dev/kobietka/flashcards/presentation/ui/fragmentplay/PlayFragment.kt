@@ -40,6 +40,9 @@ class PlayFragment : BaseFragment() {
     private lateinit var typingCorrectButton: RelativeLayout
     private lateinit var answerIndicator: ImageView
     private lateinit var endButtonNotTyping: RelativeLayout
+    private lateinit var playNotCorrectNotTypingNotEndless: RelativeLayout
+    private lateinit var playCorrectNotTypingNotEndless: RelativeLayout
+    private lateinit var playCorrectTypingOnly: RelativeLayout
 
     private var hiddenClicked = false
     private var firstHiddenUse = true
@@ -80,6 +83,9 @@ class PlayFragment : BaseFragment() {
         typingCorrectButton = view.findViewById(R.id.play_correct_typing)
         answerIndicator = view.findViewById(R.id.play_answer_indicator)
         endButtonNotTyping = view.findViewById(R.id.play_end_button_not_typing)
+        playNotCorrectNotTypingNotEndless = view.findViewById(R.id.play_not_correct_not_typing_not_endless)
+        playCorrectNotTypingNotEndless = view.findViewById(R.id.play_correct_typing_not_endless)
+        playCorrectTypingOnly = view.findViewById(R.id.play_correct_typing_only)
 
 
         compositeDisposable.add(
@@ -117,6 +123,23 @@ class PlayFragment : BaseFragment() {
         }
 
         typingCorrectButton.setOnClickListener {
+            hiddenClicked = false
+            countGuessed++
+            onCorrectAnswer()
+        }
+
+        playNotCorrectNotTypingNotEndless.setOnClickListener {
+            countGuessed++
+            onNotCorrectAnswer()
+        }
+
+        playCorrectNotTypingNotEndless.setOnClickListener {
+            hiddenClicked = false
+            countGuessed++
+            onCorrectAnswer()
+        }
+
+        playCorrectTypingOnly.setOnClickListener {
             hiddenClicked = false
             countGuessed++
             onCorrectAnswer()
@@ -313,6 +336,25 @@ class PlayFragment : BaseFragment() {
             }.start()
             enterText.isGone = false
 
+
+            if(endless){
+                ObjectAnimator.ofFloat(endButton, View.ALPHA, 0f, 1f).apply {
+                    duration = 500
+                }.start()
+                endButton.isGone = false
+
+                ObjectAnimator.ofFloat(typingCorrectButton, View.ALPHA, 0f, 1f).apply {
+                    duration = 500
+                }.start()
+                typingCorrectButton.isGone = false
+            } else {
+                ObjectAnimator.ofFloat(playCorrectTypingOnly, View.ALPHA, 0f, 1f).apply {
+                    duration = 500
+                }.start()
+                playCorrectTypingOnly.isGone = false
+            }
+
+
             ObjectAnimator.ofFloat(notCorrectButton, View.ALPHA, 1f, 0f).apply {
                 duration = 500
             }.start()
@@ -323,10 +365,6 @@ class PlayFragment : BaseFragment() {
             }.start()
             correctButton.isGone = true
 
-            ObjectAnimator.ofFloat(typingCorrectButton, View.ALPHA, 0f, 1f).apply {
-                duration = 500
-            }.start()
-            typingCorrectButton.isGone = false
         } else if(!typing){
             //hiddenWordText.text = "Tap here to check"
             if(count < cardCount){
@@ -337,17 +375,27 @@ class PlayFragment : BaseFragment() {
                             duration = 500
                         }.start()
                         endButtonNotTyping.isGone = false
+
+                        ObjectAnimator.ofFloat(correctButton, View.ALPHA, 0f, 1f).apply {
+                            duration = 500
+                        }.start()
+                        correctButton.isGone = false
+
+                        ObjectAnimator.ofFloat(notCorrectButton, View.ALPHA, 0f, 1f).apply {
+                            duration = 500
+                        }.start()
+                        notCorrectButton.isGone = false
+                    } else {
+                        ObjectAnimator.ofFloat(playNotCorrectNotTypingNotEndless, View.ALPHA, 0f, 1f).apply {
+                            duration = 500
+                        }.start()
+                        playNotCorrectNotTypingNotEndless.isGone = false
+                        ObjectAnimator.ofFloat(playCorrectNotTypingNotEndless, View.ALPHA, 0f, 1f).apply {
+                            duration = 500
+                        }.start()
+                        playCorrectNotTypingNotEndless.isGone = false
                     }
 
-                    ObjectAnimator.ofFloat(correctButton, View.ALPHA, 0f, 1f).apply {
-                        duration = 500
-                    }.start()
-                    correctButton.isGone = false
-
-                    ObjectAnimator.ofFloat(notCorrectButton, View.ALPHA, 0f, 1f).apply {
-                        duration = 500
-                    }.start()
-                    notCorrectButton.isGone = false
 
                     Log.e("HIDDENCLICKED", "FIRSTTIME")
 

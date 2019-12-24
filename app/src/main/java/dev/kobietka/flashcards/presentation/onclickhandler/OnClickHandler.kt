@@ -21,7 +21,6 @@ class OnClickHandler {
     fun setViewToNull(){
         currentView?.background = currentView?.resources?.getDrawable(entry_list_background)
         currentView?.findViewById<ImageView>(R.id.entry_flashcard_delete)?.isGone = true
-
         currentView = null
     }
 
