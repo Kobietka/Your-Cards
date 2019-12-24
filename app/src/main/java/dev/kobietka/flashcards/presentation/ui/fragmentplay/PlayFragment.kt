@@ -38,6 +38,8 @@ class PlayFragment : BaseFragment() {
     private lateinit var endText: TextView
     private lateinit var endButton: RelativeLayout
     private lateinit var typingCorrectButton: RelativeLayout
+    private lateinit var answerIndicator: ImageView
+    private lateinit var endButtonNotTyping: RelativeLayout
 
     private var hiddenClicked = false
     private var firstHiddenUse = true
@@ -76,6 +78,9 @@ class PlayFragment : BaseFragment() {
         endText = view.findViewById(R.id.play_end_text)
         endButton = view.findViewById(R.id.play_end_button)
         typingCorrectButton = view.findViewById(R.id.play_correct_typing)
+        answerIndicator = view.findViewById(R.id.play_answer_indicator)
+        endButtonNotTyping = view.findViewById(R.id.play_end_button_not_typing)
+
 
         compositeDisposable.add(
             events.flatMapMaybe {
@@ -122,7 +127,8 @@ class PlayFragment : BaseFragment() {
                 Snackbar.make(view, "Can not start, because the list is empty!", Snackbar.LENGTH_LONG).show()
             } else {
                 if(!wasShuffled) {
-                    if(random) flashcardList = flashcardList.shuffled(Random(35446))
+                    val randomValue = kotlin.random.Random.nextLong(1000000, 100000000)
+                    if(random) flashcardList = flashcardList.shuffled(Random(randomValue))
                     wasShuffled = true
                 }
                 if(endless) {
@@ -136,6 +142,17 @@ class PlayFragment : BaseFragment() {
                 }
                 onHiddenClick()
             }
+        }
+
+        endButtonNotTyping.setOnClickListener {
+            val resultFragment = ResultFragment()
+            resultFragment.score = correctAnswers
+            if(endless) resultFragment.maxScore = countGuessed
+            else resultFragment.maxScore = cardCount
+            activity!!.supportFragmentManager.beginTransaction()
+                ?.setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
+                .replace(R.id.main_container, resultFragment)
+                .commit()
         }
 
         endButton.setOnClickListener {
@@ -164,7 +181,10 @@ class PlayFragment : BaseFragment() {
             correctAnswers++
             if(endless && count == cardCount) {
                 count = 0
-                if(random) flashcardList = flashcardList.shuffled(Random(245657345))
+                if(random){
+                    val randomValue = kotlin.random.Random.nextLong(1000000, 100000000)
+                    flashcardList = flashcardList.shuffled(Random(randomValue))
+                }
             }
             if (count < cardCount) {
 
@@ -190,7 +210,26 @@ class PlayFragment : BaseFragment() {
                     .commit()
             }
         } else {
-            if(flashcardList[count - 1].hiddenWord == enterText.text.toString()) correctAnswers++
+            if(flashcardList[count - 1].hiddenWord == enterText.text.toString()){
+                answerIndicator.setImageDrawable(resources.getDrawable(R.drawable.ic_check_circle_24px))
+                correctAnswers++
+                ObjectAnimator.ofFloat(answerIndicator, View.ALPHA, 0f, 1f).apply {
+                    duration = 1000
+                }.start()
+                answerIndicator.isGone = false
+                ObjectAnimator.ofFloat(answerIndicator, View.ALPHA, 1f, 0f).apply {
+                    duration = 1000
+                }.start()
+            } else {
+                answerIndicator.setImageDrawable(resources.getDrawable(R.drawable.ic_cancel_24px))
+                ObjectAnimator.ofFloat(answerIndicator, View.ALPHA, 0f, 1f).apply {
+                    duration = 1000
+                }
+                answerIndicator.isGone = false
+                ObjectAnimator.ofFloat(answerIndicator, View.ALPHA, 1f, 0f).apply {
+                    duration = 1000
+                }.start()
+            }
             Log.e("HIDDEN", flashcardList[count - 1].hiddenWord)
             Log.e("ENTERED", enterText.text.toString())
             Log.e("COUNT", count.toString())
@@ -198,7 +237,8 @@ class PlayFragment : BaseFragment() {
             enterText.text.clear()
             if(endless && count == cardCount) {
                 count = 0
-                if(random) flashcardList = flashcardList.shuffled(Random(245657345))
+                val randomValue = kotlin.random.Random.nextLong(1000000, 100000000)
+                if(random) flashcardList = flashcardList.shuffled(Random(randomValue))
             }
             if(count < cardCount){
 
@@ -231,7 +271,8 @@ class PlayFragment : BaseFragment() {
         count++
         if(endless && count == cardCount) {
             count = 0
-            if(random) flashcardList = flashcardList.shuffled(Random(245657345))
+            val randomValue = kotlin.random.Random.nextLong(1000000, 100000000)
+            if(random) flashcardList = flashcardList.shuffled(Random(randomValue))
         }
         if (count < cardCount) {
             shownWord.text = flashcardList[count].shownWord
@@ -290,6 +331,13 @@ class PlayFragment : BaseFragment() {
             //hiddenWordText.text = "Tap here to check"
             if(count < cardCount){
                 if(firstHiddenUse){
+
+                    if(endless){
+                        ObjectAnimator.ofFloat(endButtonNotTyping, View.ALPHA, 0f, 1f).apply {
+                            duration = 500
+                        }.start()
+                        endButtonNotTyping.isGone = false
+                    }
 
                     ObjectAnimator.ofFloat(correctButton, View.ALPHA, 0f, 1f).apply {
                         duration = 500

@@ -18,6 +18,13 @@ class OnClickHandler {
     var currentView: View? = null
     var firstUse = true
 
+    fun setViewToNull(){
+        currentView?.background = currentView?.resources?.getDrawable(entry_list_background)
+        currentView?.findViewById<ImageView>(R.id.entry_flashcard_delete)?.isGone = true
+
+        currentView = null
+    }
+
     fun changeFocus(itemView: View){
         if(firstUse) {
 

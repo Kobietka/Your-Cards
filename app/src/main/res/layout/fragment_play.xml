@@ -31,31 +31,6 @@
             android:textColor="@color/colorPrimaryLight"
             android:textSize="25sp" />
 
-        <RelativeLayout
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:id="@+id/play_end_button"
-            android:visibility="gone"
-            android:background="@drawable/button_add_layout"
-            android:layout_marginEnd="10dp">
-
-            <TextView
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="End"
-                android:id="@+id/play_end_text"
-                android:textSize="20sp"
-                android:fontFamily="sans-serif"
-                android:textColor="@color/colorPrimaryLight"/>
-
-
-
-        </RelativeLayout>
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -101,6 +76,16 @@
         android:id="@+id/play_hidden_word"
         android:background="@drawable/button_add_layout">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/play_answer_indicator"
+            android:visibility="gone"
+            android:src="@drawable/ic_check_circle_24px"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -134,15 +119,43 @@
         android:layout_weight="15"
         android:layout_marginStart="10dp">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="100"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
             <RelativeLayout
-                android:layout_width="140dp"
-                android:layout_height="47dp"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:id="@+id/play_not_correct"
+                android:layout_width="0dp"
+                android:layout_weight="30"
+                android:layout_height="50dp"
+                android:id="@+id/play_end_button_not_typing"
                 android:visibility="gone"
                 android:background="@drawable/button_add_layout"
                 android:layout_marginEnd="10dp">
+
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="End"
+                    android:textSize="20sp"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/colorPrimaryLight"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="35"
+                android:layout_marginStart="5dp"
+                android:id="@+id/play_not_correct"
+                android:visibility="gone"
+                android:background="@drawable/button_add_layout">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -154,15 +167,14 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:layout_width="140dp"
-                android:layout_height="47dp"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
                 android:background="@drawable/button_add_layout"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
+                android:layout_weight="35"
                 android:id="@+id/play_correct"
                 android:visibility="gone"
                 android:layout_marginEnd="10dp"
-                android:layout_marginStart="10dp">
+                android:layout_marginStart="5dp">
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -173,24 +185,57 @@
 
             </RelativeLayout>
 
-        <RelativeLayout
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@drawable/button_add_layout"
-            android:layout_centerVertical="true"
-            android:layout_alignParentEnd="true"
-            android:id="@+id/play_correct_typing"
-            android:visibility="gone"
-            android:layout_marginEnd="10dp">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:weightSum="100">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_centerHorizontal="true"
-                android:src="@drawable/ic_check_icon"/>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="30"
+                android:layout_height="50dp"
+                android:id="@+id/play_end_button"
+                android:visibility="gone"
+                android:background="@drawable/button_add_layout"
+                android:layout_marginEnd="10dp">
 
-        </RelativeLayout>
+                <TextView
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="End"
+                    android:id="@+id/play_end_text"
+                    android:textSize="20sp"
+                    android:fontFamily="sans-serif"
+                    android:textColor="@color/colorPrimaryLight"/>
+
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="70"
+                android:layout_height="50dp"
+                android:background="@drawable/button_add_layout"
+                android:id="@+id/play_correct_typing"
+                android:visibility="gone"
+                android:layout_marginEnd="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:src="@drawable/ic_check_icon"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
     </RelativeLayout>
 

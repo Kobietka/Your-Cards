@@ -46,6 +46,7 @@ class FlashcardEditAdapter
         }
         view.findViewById<ImageView>(R.id.entry_flashcard_delete).setOnClickListener {
             viewModel.deleteClick()
+            clickHandler.setViewToNull()
         }
         return FlashcardViewHolder(view, viewModel)
     }
