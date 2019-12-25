@@ -1,11 +1,11 @@
 package dev.kobietka.flashcards.presentation.ui.fragmentmain
 
-import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
-import androidx.core.view.isGone
+import android.widget.ImageView
+import com.mikepenz.aboutlibraries.*
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +26,7 @@ class MainFragment: BaseFragment() {
     @Inject lateinit var adapter: MainAdapter
     @Inject lateinit var flashcardDao: FlashcardDao
     lateinit var addButton: Button
+    lateinit var infoButton: ImageView
 
     @Inject lateinit var listDao: CardListDao
 
@@ -54,6 +55,7 @@ class MainFragment: BaseFragment() {
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
         addButton = view.findViewById(R.id.button_add)
+        infoButton = view.findViewById(R.id.button_info)
 
         addButton.setOnClickListener {
             activity?.supportFragmentManager
@@ -62,6 +64,19 @@ class MainFragment: BaseFragment() {
                 ?.replace(R.id.main_container, AddListFragment())
                 ?.addToBackStack(null)
                 ?.commit()
+        }
+
+        infoButton.setOnClickListener {
+            /*val fragment = LibsBuilder()
+                .withLibraryModification("aboutlibraries", Libs.LibraryFields.LIBRARY_NAME, "_AboutLibraries")
+                .supportFragment()
+            activity!!.supportFragmentManager.beginTransaction()
+                .replace(R.id.main_container, fragment)
+                .addToBackStack(null)
+                .commit()*/
+            LibsBuilder()
+                .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                .start(activity!!)
         }
     }
 

@@ -13,19 +13,36 @@
         android:layout_height="match_parent"
         android:descendantFocusability="blocksDescendants">
 
-        <ImageView
-            android:id="@+id/text_your_cards"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/ic_yourcardstext" />
+            android:id="@+id/header_and_info">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_info_24px"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/button_info"
+                android:layout_marginEnd="20dp"
+                android:layout_centerVertical="true"/>
+
+            <ImageView
+                android:id="@+id/text_your_cards"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_yourcardstext" />
+
+        </RelativeLayout>
+
 
         <Button
             android:id="@+id/button_add"
             android:layout_width="103dp"
             android:layout_height="40dp"
-            android:layout_below="@+id/text_your_cards"
+            android:layout_below="@+id/header_and_info"
             android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="0dp"
