@@ -146,6 +146,7 @@ class PlayFragment : BaseFragment() {
         }
 
         hiddenWord.setOnClickListener {
+            Log.e("CARDCOUNT", cardCount.toString())
             if(cardCount == 0){
                 Snackbar.make(view, "Can not start, because the list is empty!", Snackbar.LENGTH_LONG).show()
             } else {
@@ -387,12 +388,6 @@ class PlayFragment : BaseFragment() {
             } else {
                 Log.e("HIDDENCLICKED", "???")
                 hiddenWordText.text = flashcardList[count].hiddenWord
-            }
-        } else {
-            Log.e("QUESTION", "IS THIS WORKING")
-            if(count < cardCount){
-                shownWord.text = flashcardList[count].shownWord
-                if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
             }
         }
     }
