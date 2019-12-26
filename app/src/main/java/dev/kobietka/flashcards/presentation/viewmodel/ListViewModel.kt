@@ -1,8 +1,5 @@
 package dev.kobietka.flashcards.presentation.viewmodel
 
-import android.content.Context
-import android.view.View
-import com.google.android.material.snackbar.Snackbar
 import dev.kobietka.flashcards.data.CardListDao
 import dev.kobietka.flashcards.data.CardListEntity
 import dev.kobietka.flashcards.data.FlashcardDao
@@ -13,7 +10,6 @@ import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.Subject
 import javax.inject.Inject
-import javax.inject.Named
 
 class ListViewModel
 @Inject constructor(val listDao: CardListDao,
@@ -24,17 +20,18 @@ class ListViewModel
     private val togglClicks = BehaviorSubject.create<Int>().toSerialized()
     private val playClicks = BehaviorSubject.create<Int>().toSerialized()
     private val deleteSwipe = BehaviorSubject.create<Int>().toSerialized()
-    private val reCreate = BehaviorSubject.create<Int>().toSerialized()
-    var lastListId = 0
+    private var lastListId = 0
     lateinit var list: CardListEntity
 
     init {
         togglClicks.withLatestFrom(ids, BiFunction<Int, Int, Unit> { clickId, listId ->
             eventsSubject.onNext(ClickInfo(listId, clickId))
         }).subscribe()
+
         playClicks.withLatestFrom(ids, BiFunction<Int, Int, Unit> { clickId, listId ->
             eventsSubject.onNext(ClickInfo(listId, clickId))
         }).subscribe()
+
         deleteSwipe.withLatestFrom(ids, BiFunction<Int, Int, Completable> { clickId, listId ->
             lastListId = listId
             listDao.findById(lastListId).subscribe(this::setListEntity)
@@ -63,7 +60,7 @@ class ListViewModel
         listDao.insertList(list)
     }
 
-    fun setListEntity(listEntity: CardListEntity){
+    private fun setListEntity(listEntity: CardListEntity){
         list = listEntity
     }
 

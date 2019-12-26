@@ -1,9 +1,7 @@
 package dev.kobietka.flashcards.presentation.ui.fragmentaddlist
 
 import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.Button
@@ -12,7 +10,6 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.kobietka.flashcards.R
@@ -23,9 +20,7 @@ import dev.kobietka.flashcards.data.FlashcardEntity
 import dev.kobietka.flashcards.presentation.ui.common.BaseFragment
 import dev.kobietka.flashcards.presentation.ui.fragmentmain.MainFragment
 import dev.kobietka.flashcards.presentation.ui.rvs.FlashcardAdapter
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -43,13 +38,12 @@ class AddListFragment : BaseFragment() {
     lateinit var createButton: Button
 
     var listId: Long = 0
+    var flashcardsCount = 0
 
     lateinit var recyclerView: RecyclerView
     @Inject lateinit var adapter: FlashcardAdapter
     @Inject lateinit var listDao: CardListDao
     @Inject lateinit var flashcardDao: FlashcardDao
-
-    var flashcardsCount = 0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -84,32 +78,22 @@ class AddListFragment : BaseFragment() {
             Log.e("LISTID", newID.toString())
             adapter.setCardListId(listId.toInt())
 
-            ObjectAnimator.ofFloat(saveButton, View.ALPHA, 0f, 1f).apply {
-                duration = 500
-            }.start()
+            animateShow(saveButton)
             saveButton.isGone = false
 
-            ObjectAnimator.ofFloat(createButton, View.ALPHA, 1f, 0f).apply {
-                duration = 500
-            }.start()
+            animateHide(createButton)
             createButton.isGone = true
 
-            ObjectAnimator.ofFloat(addFlashcardButton, View.ALPHA, 0f, 1f).apply {
-                duration = 500
-            }.start()
+            animateShow(addFlashcardButton)
             addFlashcardButton.isGone = false
 
             view.findViewById<ImageView>(R.id.arrow_shown_word).isGone = false
             view.findViewById<ImageView>(R.id.arrow_hidden_word).isGone = false
 
-            ObjectAnimator.ofFloat(shownWord, View.ALPHA, 0f, 1f).apply {
-                duration = 500
-            }.start()
+            animateShow(shownWord)
             shownWord.isGone = false
 
-            ObjectAnimator.ofFloat(hiddenWord, View.ALPHA, 0f, 1f).apply {
-                duration = 500
-            }.start()
+            animateShow(hiddenWord)
             hiddenWord.isGone = false
         }
 
@@ -136,6 +120,8 @@ class AddListFragment : BaseFragment() {
         }
 
         cancelButton.setOnClickListener {
+
+            //Deleting list when no cards were added and close button was clicked
             if(flashcardsCount == 0) listDao.deleteById(listId.toInt())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -182,6 +168,18 @@ class AddListFragment : BaseFragment() {
 
     private fun setId(id: Long){
         listId = id
+    }
+
+    private fun animateShow(view: View){
+        ObjectAnimator.ofFloat(view, View.ALPHA, 0f, 1f).apply {
+            duration = 500
+        }.start()
+    }
+
+    private fun animateHide(view: View){
+        ObjectAnimator.ofFloat(view, View.ALPHA, 1f, 0f).apply {
+            duration = 500
+        }.start()
     }
 
 }

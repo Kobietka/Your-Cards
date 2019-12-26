@@ -23,12 +23,12 @@ import javax.inject.Inject
 class MainFragment: BaseFragment() {
 
     lateinit var recyclerView: RecyclerView
-    @Inject lateinit var adapter: MainAdapter
-    @Inject lateinit var flashcardDao: FlashcardDao
     lateinit var addButton: Button
     lateinit var infoButton: ImageView
 
     @Inject lateinit var listDao: CardListDao
+    @Inject lateinit var adapter: MainAdapter
+    @Inject lateinit var flashcardDao: FlashcardDao
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -41,7 +41,6 @@ class MainFragment: BaseFragment() {
         @SuppressLint("CheckResult")
         val swipeHandler = object : SwipeToDeleteCallback(activity!!){
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                //val adapter = recyclerView.adapter as MainAdapter
                 (viewHolder as ListViewHolder).viewModel.deleteOnSwipe()
                 val snackbar = Snackbar.make( view, "List has been deleted!", Snackbar.LENGTH_LONG)
                 snackbar.setAction("Undo", View.OnClickListener {
@@ -67,13 +66,6 @@ class MainFragment: BaseFragment() {
         }
 
         infoButton.setOnClickListener {
-            /*val fragment = LibsBuilder()
-                .withLibraryModification("aboutlibraries", Libs.LibraryFields.LIBRARY_NAME, "_AboutLibraries")
-                .supportFragment()
-            activity!!.supportFragmentManager.beginTransaction()
-                .replace(R.id.main_container, fragment)
-                .addToBackStack(null)
-                .commit()*/
             LibsBuilder()
                 .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                 .start(activity!!)

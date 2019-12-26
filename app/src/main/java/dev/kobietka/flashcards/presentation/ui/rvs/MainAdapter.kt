@@ -25,10 +25,10 @@ class MainAdapter
     : RecyclerView.Adapter<ListViewHolder>() {
 
     var idList = listOf<Int>()
-    val compositeDisposable = CompositeDisposable()
-    val onClickHandler = OnClickHandler()
+    private val compositeDisposable = CompositeDisposable()
+    private val onClickHandler = OnClickHandler()
 
-    fun updateList(idsList: List<Int>){
+    private fun updateList(idsList: List<Int>){
         idList = idsList.reversed()
         this.notifyDataSetChanged()
     }

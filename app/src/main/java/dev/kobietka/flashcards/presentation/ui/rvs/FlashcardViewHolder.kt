@@ -11,7 +11,7 @@ import io.reactivex.schedulers.Schedulers
 
 class FlashcardViewHolder(itemView: View, val viewModel: FlashcardViewModel) : RecyclerView.ViewHolder(itemView) {
 
-    val compositeDisposable = CompositeDisposable()
+    private val compositeDisposable = CompositeDisposable()
 
     fun onAttach(){
         compositeDisposable.add(

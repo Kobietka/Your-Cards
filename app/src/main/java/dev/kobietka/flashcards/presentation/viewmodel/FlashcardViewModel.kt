@@ -2,11 +2,9 @@ package dev.kobietka.flashcards.presentation.viewmodel
 
 import io.reactivex.Observable
 import dev.kobietka.flashcards.data.FlashcardDao
-import dev.kobietka.flashcards.presentation.ui.common.ClickInfo
 import io.reactivex.Completable
 import io.reactivex.functions.BiFunction
 import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.Subject
 import javax.inject.Inject
 
 class FlashcardViewModel

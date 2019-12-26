@@ -14,11 +14,14 @@ abstract class SwipeToDeleteCallback(val context: Context) : ItemTouchHelper.Sim
         xfermode = PorterDuffXfermode(PorterDuff.Mode.CLEAR)
     }
 
-    override fun getMovementFlags(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder): Int {
+    override fun getMovementFlags(recyclerView: RecyclerView,
+                                  viewHolder: RecyclerView.ViewHolder): Int {
         return super.getMovementFlags(recyclerView, viewHolder)
     }
 
-    override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+    override fun onMove(recyclerView: RecyclerView
+                        , viewHolder: RecyclerView.ViewHolder,
+                        target: RecyclerView.ViewHolder): Boolean {
         return false
     }
 

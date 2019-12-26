@@ -11,7 +11,7 @@ import io.reactivex.schedulers.Schedulers
 
 class ListViewHolder(itemView: View, val viewModel: ListViewModel) : RecyclerView.ViewHolder(itemView) {
 
-    val compositeDisposable = CompositeDisposable()
+    private val compositeDisposable = CompositeDisposable()
 
     fun onAttach(){
         compositeDisposable.add(

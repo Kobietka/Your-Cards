@@ -11,6 +11,7 @@ import dev.kobietka.flashcards.di.PresentationModule
 
 abstract class BaseFragment: Fragment() {
 
+    //Setting up the presentation component
     val presentationComponent: PresentationComponent by lazy {
         App.applicationComponent.presentationComponent(PresentationModule(baseFragment = this))
     }

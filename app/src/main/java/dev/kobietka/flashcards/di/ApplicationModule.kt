@@ -6,7 +6,6 @@ import dagger.Module
 import dagger.Provides
 import dev.kobietka.flashcards.presentation.ui.common.ClickInfo
 import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
 import io.reactivex.subjects.Subject
 import javax.inject.Named
 import javax.inject.Singleton
@@ -31,6 +30,5 @@ class ApplicationModule(private val application: Application) {
     fun providesOtherEventsSubject(): Subject<Int>{
         return BehaviorSubject.create<Int>().toSerialized()
     }
-
 
 }

@@ -1,7 +1,5 @@
 package dev.kobietka.flashcards.presentation.ui.rvs
 
-import android.content.Context
-import android.media.Image
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -15,7 +13,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
-import javax.inject.Named
 import javax.inject.Provider
 
 class FlashcardEditAdapter
@@ -27,7 +24,7 @@ class FlashcardEditAdapter
     private var idsList: List<Int?> = listOf()
     private val compositeDisposable = CompositeDisposable()
     var listId = 0
-    val clickHandler = OnClickHandler()
+    private val clickHandler = OnClickHandler()
 
     private fun updateIds(newList: List<FlashcardEntity>){
         val goodIds = newList.filter {

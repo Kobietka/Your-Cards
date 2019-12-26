@@ -1,6 +1,5 @@
 package dev.kobietka.flashcards.di
 
-import android.app.Application
 import android.content.Context
 import androidx.room.Room
 import dagger.Module
@@ -23,7 +22,6 @@ class DatabaseModule {
             "app_database"
         ).allowMainThreadQueries().fallbackToDestructiveMigration().build()
     }
-
 
     @Provides
     fun provideCardListDao(appDatabase: AppDatabase): CardListDao {

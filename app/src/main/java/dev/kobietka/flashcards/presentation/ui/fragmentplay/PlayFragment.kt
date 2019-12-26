@@ -156,9 +156,7 @@ class PlayFragment : BaseFragment() {
                 }
                 if(endless) {
                     if(firstTimeEndless){
-                        ObjectAnimator.ofFloat(endButton, View.ALPHA, 0f, 1f).apply {
-                            duration = 500
-                        }.start()
+                        animateShow(endButton)
                         endButton.isGone = false
                         firstTimeEndless = false
                     }
@@ -211,15 +209,10 @@ class PlayFragment : BaseFragment() {
             }
             if (count < cardCount) {
 
-                ObjectAnimator.ofFloat(shownWord, View.ALPHA, 1f, 0f).apply {
-                    duration = 500
-                }.start()
+                animateHide(shownWord)
                 shownWord.text = flashcardList[count].shownWord
 
-                ObjectAnimator.ofFloat(shownWord, View.ALPHA, 0f, 1f).apply {
-                    duration = 500
-                }.start()
-
+                animateShow(shownWord)
                 hiddenWordText.text = "Tap here to check"
                 if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
             } else {
@@ -236,27 +229,22 @@ class PlayFragment : BaseFragment() {
             if(flashcardList[count - 1].hiddenWord == enterText.text.toString()){
                 answerIndicator.setImageDrawable(resources.getDrawable(R.drawable.ic_check_circle_24px))
                 correctAnswers++
-                ObjectAnimator.ofFloat(answerIndicator, View.ALPHA, 0f, 1f).apply {
-                    duration = 1000
-                }.start()
+
+                animateShow(answerIndicator)
                 answerIndicator.isGone = false
-                ObjectAnimator.ofFloat(answerIndicator, View.ALPHA, 1f, 0f).apply {
-                    duration = 1000
-                }.start()
+                animateHide(answerIndicator)
             } else {
                 answerIndicator.setImageDrawable(resources.getDrawable(R.drawable.ic_cancel_24px))
-                ObjectAnimator.ofFloat(answerIndicator, View.ALPHA, 0f, 1f).apply {
-                    duration = 1000
-                }
+                animateShow(answerIndicator)
                 answerIndicator.isGone = false
-                ObjectAnimator.ofFloat(answerIndicator, View.ALPHA, 1f, 0f).apply {
-                    duration = 1000
-                }.start()
+                animateHide(answerIndicator)
             }
+
             Log.e("HIDDEN", flashcardList[count - 1].hiddenWord)
             Log.e("ENTERED", enterText.text.toString())
             Log.e("COUNT", count.toString())
             Log.e("CORRECT", correctAnswers.toString())
+
             enterText.text.clear()
             if(endless && count == cardCount) {
                 count = 0
@@ -265,15 +253,9 @@ class PlayFragment : BaseFragment() {
             }
             if(count < cardCount){
 
-                ObjectAnimator.ofFloat(shownWord, View.ALPHA, 1f, 0f).apply {
-                    duration = 500
-                }.start()
-
+                animateHide(shownWord)
                 shownWord.text = flashcardList[count].shownWord
-
-                ObjectAnimator.ofFloat(shownWord, View.ALPHA, 0f, 1f).apply {
-                    duration = 500
-                }.start()
+                animateShow(shownWord)
 
                 if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
             } else {
@@ -298,8 +280,14 @@ class PlayFragment : BaseFragment() {
             if(random) flashcardList = flashcardList.shuffled(Random(randomValue))
         }
         if (count < cardCount) {
+
+            animateHide(shownWord)
             shownWord.text = flashcardList[count].shownWord
+            animateShow(shownWord)
+            animateHide(hiddenWordText)
             hiddenWordText.text = "Tap here to check"
+            animateShow(hiddenWordText)
+
             if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
         } else {
             val resultFragment = ResultFragment()
@@ -316,96 +304,61 @@ class PlayFragment : BaseFragment() {
     private fun onHiddenClick(){
         cardCount = flashcardList.size
         if(typing) {
-            //if(random) flashcardList = flashcardList.shuffled(Random(466754))
-            ObjectAnimator.ofFloat(shownWord, View.ALPHA, 1f, 0f).apply {
-                duration = 500
-            }.start()
+
+            animateHide(shownWord)
             shownWord.text = flashcardList[count].shownWord
-            ObjectAnimator.ofFloat(shownWord, View.ALPHA, 0f, 1f).apply {
-                duration = 500
-            }.start()
+            animateShow(shownWord)
             if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
 
-            ObjectAnimator.ofFloat(hiddenWordText, View.ALPHA, 1f, 0f).apply {
-                duration = 500
-            }.start()
+            animateHide(hiddenWordText)
             hiddenWordText.isGone = true
 
-            ObjectAnimator.ofFloat(enterText, View.ALPHA, 0f, 1f).apply {
-                duration = 500
-            }.start()
+            animateShow(enterText)
             enterText.isGone = false
 
-
             if(endless){
-                ObjectAnimator.ofFloat(endButton, View.ALPHA, 0f, 1f).apply {
-                    duration = 500
-                }.start()
+                animateShow(endButton)
                 endButton.isGone = false
-
-                ObjectAnimator.ofFloat(typingCorrectButton, View.ALPHA, 0f, 1f).apply {
-                    duration = 500
-                }.start()
+                animateShow(typingCorrectButton)
                 typingCorrectButton.isGone = false
             } else {
-                ObjectAnimator.ofFloat(playCorrectTypingOnly, View.ALPHA, 0f, 1f).apply {
-                    duration = 500
-                }.start()
+                animateShow(playCorrectTypingOnly)
                 playCorrectTypingOnly.isGone = false
             }
 
-
-            ObjectAnimator.ofFloat(notCorrectButton, View.ALPHA, 1f, 0f).apply {
-                duration = 500
-            }.start()
+            animateHide(notCorrectButton)
             notCorrectButton.isGone = true
 
-            ObjectAnimator.ofFloat(correctButton, View.ALPHA, 1f, 0f).apply {
-                duration = 500
-            }.start()
+            animateHide(correctButton)
             correctButton.isGone = true
 
         } else if(!typing){
-            //hiddenWordText.text = "Tap here to check"
             if(count < cardCount){
                 if(firstHiddenUse){
 
                     if(endless){
-                        ObjectAnimator.ofFloat(endButtonNotTyping, View.ALPHA, 0f, 1f).apply {
-                            duration = 500
-                        }.start()
+                        animateShow(endButtonNotTyping)
                         endButtonNotTyping.isGone = false
 
-                        ObjectAnimator.ofFloat(correctButton, View.ALPHA, 0f, 1f).apply {
-                            duration = 500
-                        }.start()
+                        animateShow(correctButton)
                         correctButton.isGone = false
 
-                        ObjectAnimator.ofFloat(notCorrectButton, View.ALPHA, 0f, 1f).apply {
-                            duration = 500
-                        }.start()
+                        animateShow(notCorrectButton)
                         notCorrectButton.isGone = false
                     } else {
-                        ObjectAnimator.ofFloat(playNotCorrectNotTypingNotEndless, View.ALPHA, 0f, 1f).apply {
-                            duration = 500
-                        }.start()
+                        animateShow(playNotCorrectNotTypingNotEndless)
                         playNotCorrectNotTypingNotEndless.isGone = false
-                        ObjectAnimator.ofFloat(playCorrectNotTypingNotEndless, View.ALPHA, 0f, 1f).apply {
-                            duration = 500
-                        }.start()
+
+                        animateShow(playCorrectNotTypingNotEndless)
                         playCorrectNotTypingNotEndless.isGone = false
                     }
 
 
                     Log.e("HIDDENCLICKED", "FIRSTTIME")
 
-                    ObjectAnimator.ofFloat(shownWord, View.ALPHA, 1f, 0f).apply {
-                        duration = 500
-                    }.start()
+                    animateHide(shownWord)
                     shownWord.text = flashcardList[count].shownWord
-                    ObjectAnimator.ofFloat(shownWord, View.ALPHA, 0f, 1f).apply {
-                        duration = 500
-                    }.start()
+                    animateShow(shownWord)
 
                     hiddenWordText.text = "Tap here to check"
                     if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
@@ -417,43 +370,26 @@ class PlayFragment : BaseFragment() {
 
                         shownWord.text = flashcardList[count].shownWord
 
-                        ObjectAnimator.ofFloat(hiddenWordText, View.ALPHA, 1f, 0f).apply {
-                            duration = 500
-                        }.start()
+                        animateHide(hiddenWordText)
                         hiddenWordText.text = flashcardList[count].hiddenWord
-                        ObjectAnimator.ofFloat(hiddenWordText, View.ALPHA, 0f, 1f).apply {
-                            duration = 500
-                        }.start()
+                        animateShow(hiddenWordText)
+
                         if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
                         hiddenClicked = true
                     } else {
                         Log.e("HIDDENCLICKED", "TRUE")
-                        ObjectAnimator.ofFloat(hiddenWordText, View.ALPHA, 1f, 0f).apply {
-                            duration = 500
-                        }.start()
+                        animateHide(hiddenWordText)
                         hiddenWordText.text = "Tap here to check"
-                        ObjectAnimator.ofFloat(hiddenWordText, View.ALPHA, 0f, 1f).apply {
-                            duration = 500
-                        }.start()
+                        animateShow(hiddenWordText)
                         hiddenClicked = false
                     }
                 }
-                /*if (!hiddenClicked) {
-                    Log.e("HIDDENCLICKED", "FALSE")
-                    shownWord.text = flashcardList[count].shownWord
-                    if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
-                    hiddenClicked = true
-                } else {
-                    Log.e("HIDDENCLICKED", "TRUE")
-                    hiddenWordText.text = flashcardList[count].hiddenWord
-                    hiddenClicked = false
-                }*/
             } else {
                 Log.e("HIDDENCLICKED", "???")
                 hiddenWordText.text = flashcardList[count].hiddenWord
             }
         } else {
-            Log.e("QUESTION", "czy tos ie odpala")
+            Log.e("QUESTION", "IS THIS WORKING")
             if(count < cardCount){
                 shownWord.text = flashcardList[count].shownWord
                 if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
@@ -463,6 +399,18 @@ class PlayFragment : BaseFragment() {
 
     private fun setNewFlashcardList(list: List<FlashcardEntity>){
         flashcardList = list
+    }
+
+    private fun animateShow(view: View){
+        ObjectAnimator.ofFloat(view, View.ALPHA, 0f, 1f).apply {
+            duration = 500
+        }.start()
+    }
+
+    private fun animateHide(view: View){
+        ObjectAnimator.ofFloat(view, View.ALPHA, 1f, 0f).apply {
+            duration = 500
+        }.start()
     }
 
     override fun getLayout(): Int {

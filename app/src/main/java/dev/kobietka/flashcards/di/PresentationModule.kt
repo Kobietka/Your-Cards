@@ -35,5 +35,4 @@ class PresentationModule(private val baseActivity: BaseActivity? = null, private
         return otherSubject
     }
 
-
 }
