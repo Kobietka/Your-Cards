@@ -51,7 +51,7 @@ class PlayFragment : BaseFragment() {
     @Inject lateinit var events: Observable<ClickInfo>
     @Inject lateinit var viewModel: PlayViewModel
     private val compositeDisposable = CompositeDisposable()
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presentationComponent.inject(this)
@@ -98,12 +98,18 @@ class PlayFragment : BaseFragment() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
                     if(it){
+                        animateShow(playCorrectTypingOnly)
                         playCorrectTypingOnly.isGone = false
+                        animateShow(enterText)
                         enterText.isGone = false
+                        animateHide(hiddenWordText)
                         hiddenWordText.isGone = true
                     } else {
+                        animateShow(playCorrectNotTypingNotEndless)
                         playCorrectNotTypingNotEndless.isGone = false
+                        animateShow(playNotCorrectNotTypingNotEndless)
                         playNotCorrectNotTypingNotEndless.isGone = false
+                        animateHide(hiddenWordText)
                         hiddenWordText.isGone = true
                         hiddenWordTextTap.text = "Tap here to check"
                     }
@@ -149,7 +155,9 @@ class PlayFragment : BaseFragment() {
             viewModel.shownWord.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
+                    animateHide(shownWord)
                     shownWord.text = it
+                    animateShow(shownWord)
                 }
         )
 
@@ -164,7 +172,9 @@ class PlayFragment : BaseFragment() {
                         .commit()
                 }
                 .subscribe {
+                    animateHide(hiddenWordText)
                     hiddenWordText.text = it
+                    animateShow(hiddenWordText)
                 }
         )
 
@@ -172,7 +182,9 @@ class PlayFragment : BaseFragment() {
             viewModel.count.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
+                    animateHide(countText)
                     countText.text = it.toString()
+                    animateShow(countText)
                 }
         )
 
@@ -180,13 +192,16 @@ class PlayFragment : BaseFragment() {
             viewModel.listName.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
+                    animateHide(listName)
                     listName.text = it
+                    animateShow(listName)
                 }
         )
 
 
         startButton.setOnClickListener {
             viewModel.onStart()
+            animateHide(startButton)
             startButton.isGone = true
         }
 
@@ -203,13 +218,17 @@ class PlayFragment : BaseFragment() {
         }
 
         playNotCorrectNotTypingNotEndless.setOnClickListener {
+            animateHide(hiddenWordText)
             hiddenWordText.isGone = true
+            animateShow(hiddenWordTextTap)
             hiddenWordTextTap.isGone = false
             viewModel.onNotCorrectClick()
         }
 
         playCorrectNotTypingNotEndless.setOnClickListener {
+            animateHide(hiddenWordText)
             hiddenWordText.isGone = true
+            animateShow(hiddenWordTextTap)
             hiddenWordTextTap.isGone = false
             viewModel.onCorrectClick()
         }
