@@ -114,10 +114,45 @@ class PlayFragment : BaseFragment() {
         )
 
         compositeDisposable.add(
+            viewModel.isTyping.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    if(it){
+                        playCorrectTypingOnly.isGone = false
+                        enterText.isGone = false
+                        hiddenWordText.isGone = true
+                    } else {
+                        playCorrectNotTypingNotEndless.isGone = false
+                        playNotCorrectNotTypingNotEndless.isGone = false
+                        hiddenWordText.isGone = true
+                        hiddenWordTextTap.text = "Tap here to check"
+                    }
+                }
+        )
+
+        compositeDisposable.add(
+            viewModel.isAnswerCorrect.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    if(it){
+                        answerIndicator.setImageDrawable(resources.getDrawable(R.drawable.ic_check_circle_24px))
+                        animateShow(answerIndicator)
+                        answerIndicator.isGone = false
+                        animateHide(answerIndicator)
+                    } else {
+                        answerIndicator.setImageDrawable(resources.getDrawable(R.drawable.ic_cancel_24px))
+                        animateShow(answerIndicator)
+                        answerIndicator.isGone = false
+                        animateHide(answerIndicator)
+                    }
+                }
+        )
+
+        compositeDisposable.add(
             viewModel.runnable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    if(!it){
+                    if(it){
                         val snackbar: Snackbar = Snackbar.make(view,
                             "Cannot start because the list is empty!",
                             Snackbar.LENGTH_LONG)
@@ -142,6 +177,7 @@ class PlayFragment : BaseFragment() {
             viewModel.hiddenWord.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete {
+                    hiddenWordTextTap.isGone = true
                     activity!!.supportFragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
                         .replace(R.id.main_container, resultFragment)
@@ -172,10 +208,6 @@ class PlayFragment : BaseFragment() {
         startButton.setOnClickListener {
             viewModel.onStart()
             startButton.isGone = true
-            playCorrectNotTypingNotEndless.isGone = false
-            playNotCorrectNotTypingNotEndless.isGone = false
-            hiddenWordText.isGone = true
-            hiddenWordTextTap.text = "Tap here to check"
         }
 
         correctButton.setOnClickListener {
@@ -203,13 +235,13 @@ class PlayFragment : BaseFragment() {
         }
 
         playCorrectTypingOnly.setOnClickListener {
-
+            viewModel.checkAnswer(enterText.text.toString())
+            enterText.text.clear()
         }
 
         hiddenWord.setOnClickListener {
             hiddenWordTextTap.isGone = true
             hiddenWordText.isGone = false
-            //viewModel.onHiddenClick()
         }
 
         endButtonNotTyping.setOnClickListener {
@@ -218,7 +250,7 @@ class PlayFragment : BaseFragment() {
             if(endless) resultFragment.maxScore = countGuessed
             else resultFragment.maxScore = cardCount
             activity!!.supportFragmentManager.beginTransaction()
-                ?.setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
+                .setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
                 .replace(R.id.main_container, resultFragment)
                 .commit()
         }
@@ -229,7 +261,7 @@ class PlayFragment : BaseFragment() {
             if(endless) resultFragment.maxScore = countGuessed
             else resultFragment.maxScore = cardCount
             activity!!.supportFragmentManager.beginTransaction()
-                ?.setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
+                .setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
                 .replace(R.id.main_container, resultFragment)
                 .commit()
         }
@@ -268,14 +300,14 @@ class PlayFragment : BaseFragment() {
                 if(endless) resultFragment.maxScore = countGuessed
                 else resultFragment.maxScore = cardCount
                 activity!!.supportFragmentManager.beginTransaction()
-                    ?.setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
+                    .setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
                     .replace(R.id.main_container, resultFragment)
                     .commit()
             }
         } else {
             if(flashcardList[count - 1].hiddenWord == enterText.text.toString()){
                 answerIndicator.setImageDrawable(resources.getDrawable(R.drawable.ic_check_circle_24px))
-                correctAnswers++
+                //correctAnswers++
 
                 animateShow(answerIndicator)
                 answerIndicator.isGone = false

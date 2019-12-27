@@ -1,13 +1,17 @@
 package dev.kobietka.flashcards.presentation.viewmodel
 
+import android.util.Log
 import dev.kobietka.flashcards.data.CardListDao
 import dev.kobietka.flashcards.data.CardListEntity
 import dev.kobietka.flashcards.data.FlashcardDao
 import dev.kobietka.flashcards.data.FlashcardEntity
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import javax.inject.Inject
+import kotlin.random.Random
 
 class PlayViewModel
 @Inject constructor(val flashcardDao: FlashcardDao,
@@ -21,6 +25,8 @@ class PlayViewModel
     private val cards = BehaviorSubject.create<Int>().toSerialized()
     private val stop = BehaviorSubject.create<Boolean>().toSerialized()
     private val result = BehaviorSubject.create<Double>().toSerialized()
+    private val typing = BehaviorSubject.create<Boolean>().toSerialized()
+    private val answer = BehaviorSubject.create<Boolean>().toSerialized()
 
     var currentPosition = 0
     var correctAnswers = 0
@@ -28,8 +34,12 @@ class PlayViewModel
     init {
         compositeDisposable.add(
             ids.subscribe { id ->
-                flashcardDao.getAllFlashcardsByListId(id).subscribe(this::setFlashcardsList)
-                listDao.getById(id).subscribe(this::setCardList)
+                flashcardDao.getAllFlashcardsByListId(id).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::setFlashcardsList)
+                listDao.getById(id).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::setCardList)
             }
         )
     }
@@ -40,10 +50,13 @@ class PlayViewModel
 
     fun onStart(){
         if(flashcardList.isNotEmpty()){
-            stop.onNext(true)
+            if(cardListEntity.randomOrder)
+                flashcardList = flashcardList.shuffled(Random(Random.nextInt(1, 1000000)))
+            typing.onNext(cardListEntity.typingAnswer)
+            stop.onNext(false)
             cards.onNext(currentPosition)
             currentPosition++
-        } else stop.onNext(false)
+        } else stop.onNext(true)
     }
 
     fun onCorrectClick(){
@@ -66,6 +79,16 @@ class PlayViewModel
             result.onNext(0.1)
             cards.onComplete()
         }
+    }
+
+    fun checkAnswer(typedAnswer: String){
+        Log.e("TYPEDANSWER", typedAnswer)
+        Log.e("HIDDEN", flashcardList[currentPosition - 1].hiddenWord)
+        if(typedAnswer == flashcardList[currentPosition - 1].hiddenWord){
+            answer.onNext(true)
+            correctAnswers++
+        } else answer.onNext(false)
+        onNotCorrectClick()
     }
 
     val shownWord: Observable<String>
@@ -93,9 +116,19 @@ class PlayViewModel
             it
         }
 
+    val isTyping: Observable<Boolean>
+        get() = typing.map {
+            it
+        }
+
     val resultValue: Observable<Double>
         get() = result.map {
             correctAnswers.toDouble()/flashcardList.size
+        }
+
+    val isAnswerCorrect: Observable<Boolean>
+        get() = answer.map {
+            it
         }
 
     private fun setCardList(cardList: CardListEntity){
