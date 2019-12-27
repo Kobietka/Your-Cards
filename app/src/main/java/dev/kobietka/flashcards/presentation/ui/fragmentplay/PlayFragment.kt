@@ -16,13 +16,15 @@ import dev.kobietka.flashcards.presentation.ui.common.BaseFragment
 import dev.kobietka.flashcards.presentation.ui.common.ClickInfo
 import dev.kobietka.flashcards.presentation.ui.fragmentmain.MainFragment
 import dev.kobietka.flashcards.presentation.ui.fragmentresults.ResultFragment
+import dev.kobietka.flashcards.presentation.viewmodel.PlayViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.Observable
+import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
-import org.w3c.dom.Text
-import java.util.*
 import javax.inject.Inject
+import kotlin.random.Random
 
 class PlayFragment : BaseFragment() {
 
@@ -43,6 +45,8 @@ class PlayFragment : BaseFragment() {
     private lateinit var playNotCorrectNotTypingNotEndless: RelativeLayout
     private lateinit var playCorrectNotTypingNotEndless: RelativeLayout
     private lateinit var playCorrectTypingOnly: RelativeLayout
+    private lateinit var hiddenWordTextTap: TextView
+    private lateinit var startButton: RelativeLayout
 
     private var hiddenClicked = false
     private var firstHiddenUse = true
@@ -59,9 +63,12 @@ class PlayFragment : BaseFragment() {
 
     private var correctAnswers = 0
 
+    val resultFragment = ResultFragment()
+
     @Inject lateinit var flashcardDao: FlashcardDao
     @Inject lateinit var listDao: CardListDao
     @Inject lateinit var events: Observable<ClickInfo>
+    @Inject lateinit var viewModel: PlayViewModel
     val compositeDisposable = CompositeDisposable()
 
     @SuppressLint("CheckResult")
@@ -86,84 +93,123 @@ class PlayFragment : BaseFragment() {
         playNotCorrectNotTypingNotEndless = view.findViewById(R.id.play_not_correct_not_typing_not_endless)
         playCorrectNotTypingNotEndless = view.findViewById(R.id.play_correct_typing_not_endless)
         playCorrectTypingOnly = view.findViewById(R.id.play_correct_typing_only)
+        hiddenWordTextTap = view.findViewById(R.id.play_hidden_word_text_tap)
+        startButton = view.findViewById(R.id.play_start_button)
 
 
         compositeDisposable.add(
-            events.flatMapMaybe {
-                Log.e("LISTID", it.listId.toString())
-                listDao.findById(it.listId!!)
+            events.map {
+                it.listId
             }.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(viewModel::setListID)
+        )
+
+        compositeDisposable.add(
+            viewModel.resultValue.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    listName.text = it.name
-                    listId = it.id!!
-                    cardCount = it.count
-                    random = it.randomOrder
-                    endless = it.endless
-                    typing = it.typingAnswer
-                    flashcardDao.getAllFlashcardsByListId(it.id)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(this::setNewFlashcardList)
+                    resultFragment.ratio = it
                 }
         )
 
-        hiddenWordText.text = "Click here to start"
+        compositeDisposable.add(
+            viewModel.runnable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    if(!it){
+                        val snackbar: Snackbar = Snackbar.make(view,
+                            "Cannot start because the list is empty!",
+                            Snackbar.LENGTH_LONG)
+                        snackbar.show()
+                        activity!!.supportFragmentManager.beginTransaction()
+                            .setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
+                            .replace(R.id.main_container, MainFragment())
+                            .commit()
+                    }
+                }
+        )
 
+        compositeDisposable.add(
+            viewModel.shownWord.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    shownWord.text = it
+                }
+        )
+
+        compositeDisposable.add(
+            viewModel.hiddenWord.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete {
+                    activity!!.supportFragmentManager.beginTransaction()
+                        .setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
+                        .replace(R.id.main_container, resultFragment)
+                        .commit()
+                }
+                .subscribe {
+                    hiddenWordText.text = it
+                }
+        )
+
+        compositeDisposable.add(
+            viewModel.count.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    countText.text = it.toString()
+                }
+        )
+
+        compositeDisposable.add(
+            viewModel.listName.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    listName.text = it
+                }
+        )
+
+
+        startButton.setOnClickListener {
+            viewModel.onStart()
+            startButton.isGone = true
+            playCorrectNotTypingNotEndless.isGone = false
+            playNotCorrectNotTypingNotEndless.isGone = false
+            hiddenWordText.isGone = true
+            hiddenWordTextTap.text = "Tap here to check"
+        }
 
         correctButton.setOnClickListener {
-            hiddenClicked = false
-            countGuessed++
-            onCorrectAnswer()
+
         }
 
         notCorrectButton.setOnClickListener {
-            countGuessed++
-            onNotCorrectAnswer()
+
         }
 
         typingCorrectButton.setOnClickListener {
-            hiddenClicked = false
-            countGuessed++
-            onCorrectAnswer()
+
         }
 
         playNotCorrectNotTypingNotEndless.setOnClickListener {
-            countGuessed++
-            onNotCorrectAnswer()
+            hiddenWordText.isGone = true
+            hiddenWordTextTap.isGone = false
+            viewModel.onNotCorrectClick()
         }
 
         playCorrectNotTypingNotEndless.setOnClickListener {
-            hiddenClicked = false
-            countGuessed++
-            onCorrectAnswer()
+            hiddenWordText.isGone = true
+            hiddenWordTextTap.isGone = false
+            viewModel.onCorrectClick()
         }
 
         playCorrectTypingOnly.setOnClickListener {
-            hiddenClicked = false
-            countGuessed++
-            onCorrectAnswer()
+
         }
 
         hiddenWord.setOnClickListener {
-            Log.e("CARDCOUNT", cardCount.toString())
-            if(cardCount == 0){
-                Snackbar.make(view, "Can not start, because the list is empty!", Snackbar.LENGTH_LONG).show()
-            } else {
-                if(!wasShuffled) {
-                    val randomValue = kotlin.random.Random.nextLong(1000000, 100000000)
-                    if(random) flashcardList = flashcardList.shuffled(Random(randomValue))
-                    wasShuffled = true
-                }
-                if(endless) {
-                    if(firstTimeEndless){
-                        animateShow(endButton)
-                        endButton.isGone = false
-                        firstTimeEndless = false
-                    }
-                }
-                onHiddenClick()
-            }
+            hiddenWordTextTap.isGone = true
+            hiddenWordText.isGone = false
+            //viewModel.onHiddenClick()
         }
 
         endButtonNotTyping.setOnClickListener {

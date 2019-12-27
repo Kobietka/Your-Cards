@@ -27,9 +27,30 @@
             android:layout_toEndOf="@+id/play_close"
             android:fontFamily="sans-serif"
             android:id="@+id/play_list_name"
-            android:text="List Name"
             android:textColor="@color/colorPrimaryLight"
             android:textSize="25sp" />
+
+        <RelativeLayout
+            android:layout_width="103dp"
+            android:layout_height="42dp"
+            android:background="@drawable/button_add_layout"
+            android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/play_start_button"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:textColor="@color/colorPrimaryLight"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif"
+                android:layout_centerHorizontal="true"
+                android:text="Start"/>
+
+        </RelativeLayout>
 
     </RelativeLayout>
 
@@ -89,10 +110,18 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tap here to start"
             android:textColor="@color/colorPrimaryLight"
             android:textSize="25sp"
             android:id="@+id/play_hidden_word_text"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:fontFamily="sans-serif"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryLight"
+            android:textSize="25sp"
+            android:id="@+id/play_hidden_word_text_tap"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:fontFamily="sans-serif"/>

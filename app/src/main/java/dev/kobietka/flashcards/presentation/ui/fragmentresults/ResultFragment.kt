@@ -21,6 +21,7 @@ class ResultFragment : BaseFragment() {
     private lateinit var staticText: TextView
     var score = 0
     var maxScore = 0
+    var ratio = 0.0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -30,9 +31,9 @@ class ResultFragment : BaseFragment() {
         backButton = view.findViewById(R.id.results_back_button)
         staticText = view.findViewById(R.id.results_text)
 
-        val division = (score.toDouble()/maxScore.toDouble())
+        val percentage = (ratio * 100).toInt()
 
-        scoreText.text = " $score/$maxScore"
+        scoreText.text = "$percentage%"
 
         ObjectAnimator.ofFloat(scoreText, View.ALPHA, 0f, 1f).apply {
             duration = 500
@@ -40,22 +41,22 @@ class ResultFragment : BaseFragment() {
         scoreText.isGone = false
 
         when {
-            division < 0.5 -> {
+            ratio < 0.5 -> {
                 staticText.text = "You will do better next time!"
             }
-            division < 0.75 -> {
+            ratio < 0.75 -> {
                 staticText.text = "Nice!"
                 starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_1stars))
             }
-            division < 0.9 -> {
+            ratio < 0.9 -> {
                 staticText.text = "Very good!"
                 starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_2stars))
             }
-            division < 1.0 -> {
+            ratio < 1.0 -> {
                 staticText.text = "Almost Perfect!"
                 starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_3stars))
             }
-            division == 1.0 -> {
+            ratio == 1.0 -> {
                 staticText.text = "Perfect!"
                 starsImage.setImageDrawable(resources.getDrawable(R.drawable.ic_3stars))
             }
