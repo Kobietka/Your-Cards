@@ -68,6 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
             android:id="@+id/play_shown_word"
             android:textColor="@android:color/black"
             android:textSize="25sp"

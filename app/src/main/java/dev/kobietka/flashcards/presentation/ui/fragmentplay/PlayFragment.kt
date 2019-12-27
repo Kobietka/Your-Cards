@@ -239,11 +239,6 @@ class PlayFragment : BaseFragment() {
             enterText.text.clear()
         }
 
-        hiddenWord.setOnClickListener {
-            hiddenWordTextTap.isGone = true
-            hiddenWordText.isGone = false
-        }
-
         endButtonNotTyping.setOnClickListener {
             val resultFragment = ResultFragment()
             resultFragment.score = correctAnswers
