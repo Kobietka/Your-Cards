@@ -104,6 +104,7 @@ class PlayFragment : BaseFragment() {
                         enterText.isGone = false
                         animateHide(hiddenWordText)
                         hiddenWordText.isGone = true
+                        hiddenWordText.setTextColor(0)
                     } else {
                         animateShow(playCorrectNotTypingNotEndless)
                         playCorrectNotTypingNotEndless.isGone = false
@@ -203,6 +204,11 @@ class PlayFragment : BaseFragment() {
             viewModel.onStart()
             animateHide(startButton)
             startButton.isGone = true
+        }
+
+        hiddenWord.setOnClickListener {
+            hiddenWordTextTap.isGone = true
+            hiddenWordText.isGone = false
         }
 
         correctButton.setOnClickListener {
