@@ -3,7 +3,6 @@ package dev.kobietka.flashcards.presentation.ui.fragmentplay
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.view.isGone
@@ -11,7 +10,6 @@ import com.google.android.material.snackbar.Snackbar
 import dev.kobietka.flashcards.R
 import dev.kobietka.flashcards.data.CardListDao
 import dev.kobietka.flashcards.data.FlashcardDao
-import dev.kobietka.flashcards.data.FlashcardEntity
 import dev.kobietka.flashcards.presentation.ui.common.BaseFragment
 import dev.kobietka.flashcards.presentation.ui.common.ClickInfo
 import dev.kobietka.flashcards.presentation.ui.fragmentmain.MainFragment
@@ -19,12 +17,9 @@ import dev.kobietka.flashcards.presentation.ui.fragmentresults.ResultFragment
 import dev.kobietka.flashcards.presentation.viewmodel.PlayViewModel
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.Observable
-import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
-import kotlin.random.Random
 
 class PlayFragment : BaseFragment() {
 
@@ -48,30 +43,15 @@ class PlayFragment : BaseFragment() {
     private lateinit var hiddenWordTextTap: TextView
     private lateinit var startButton: RelativeLayout
 
-    private var hiddenClicked = false
-    private var firstHiddenUse = true
-    private var listId = 0
-    private var cardCount = 0
-    private var count = 0
-    private var countGuessed = 0
-    private var random = false
-    private var typing = false
-    private var endless = false
-    private var wasShuffled = false
-    private var firstTimeEndless = true
-    private var flashcardList = listOf<FlashcardEntity>()
 
-    private var correctAnswers = 0
-
-    val resultFragment = ResultFragment()
+    private val resultFragment = ResultFragment()
 
     @Inject lateinit var flashcardDao: FlashcardDao
     @Inject lateinit var listDao: CardListDao
     @Inject lateinit var events: Observable<ClickInfo>
     @Inject lateinit var viewModel: PlayViewModel
-    val compositeDisposable = CompositeDisposable()
-
-    @SuppressLint("CheckResult")
+    private val compositeDisposable = CompositeDisposable()
+    
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presentationComponent.inject(this)
@@ -211,15 +191,15 @@ class PlayFragment : BaseFragment() {
         }
 
         correctButton.setOnClickListener {
-
+            //Left here for future option
         }
 
         notCorrectButton.setOnClickListener {
-
+            //Left here for future option
         }
 
         typingCorrectButton.setOnClickListener {
-
+            //Left here for future option
         }
 
         playNotCorrectNotTypingNotEndless.setOnClickListener {
@@ -240,25 +220,11 @@ class PlayFragment : BaseFragment() {
         }
 
         endButtonNotTyping.setOnClickListener {
-            val resultFragment = ResultFragment()
-            resultFragment.score = correctAnswers
-            if(endless) resultFragment.maxScore = countGuessed
-            else resultFragment.maxScore = cardCount
-            activity!!.supportFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
-                .replace(R.id.main_container, resultFragment)
-                .commit()
+            //Left here for future option
         }
 
         endButton.setOnClickListener {
-            val resultFragment = ResultFragment()
-            resultFragment.score = correctAnswers
-            if(endless) resultFragment.maxScore = countGuessed
-            else resultFragment.maxScore = cardCount
-            activity!!.supportFragmentManager.beginTransaction()
-                .setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
-                .replace(R.id.main_container, resultFragment)
-                .commit()
+           //Left here for future option
         }
 
         closeButton.setOnClickListener {
@@ -268,205 +234,6 @@ class PlayFragment : BaseFragment() {
                 ?.commit()
         }
 
-    }
-
-    private fun onCorrectAnswer(){
-        count++
-        if(!typing) {
-            correctAnswers++
-            if(endless && count == cardCount) {
-                count = 0
-                if(random){
-                    val randomValue = kotlin.random.Random.nextLong(1000000, 100000000)
-                    flashcardList = flashcardList.shuffled(Random(randomValue))
-                }
-            }
-            if (count < cardCount) {
-
-                animateHide(shownWord)
-                shownWord.text = flashcardList[count].shownWord
-
-                animateShow(shownWord)
-                hiddenWordText.text = "Tap here to check"
-                if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
-            } else {
-                val resultFragment = ResultFragment()
-                resultFragment.score = correctAnswers
-                if(endless) resultFragment.maxScore = countGuessed
-                else resultFragment.maxScore = cardCount
-                activity!!.supportFragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
-                    .replace(R.id.main_container, resultFragment)
-                    .commit()
-            }
-        } else {
-            if(flashcardList[count - 1].hiddenWord == enterText.text.toString()){
-                answerIndicator.setImageDrawable(resources.getDrawable(R.drawable.ic_check_circle_24px))
-                //correctAnswers++
-
-                animateShow(answerIndicator)
-                answerIndicator.isGone = false
-                animateHide(answerIndicator)
-            } else {
-                answerIndicator.setImageDrawable(resources.getDrawable(R.drawable.ic_cancel_24px))
-                animateShow(answerIndicator)
-                answerIndicator.isGone = false
-                animateHide(answerIndicator)
-            }
-
-            Log.e("HIDDEN", flashcardList[count - 1].hiddenWord)
-            Log.e("ENTERED", enterText.text.toString())
-            Log.e("COUNT", count.toString())
-            Log.e("CORRECT", correctAnswers.toString())
-
-            enterText.text.clear()
-            if(endless && count == cardCount) {
-                count = 0
-                val randomValue = kotlin.random.Random.nextLong(1000000, 100000000)
-                if(random) flashcardList = flashcardList.shuffled(Random(randomValue))
-            }
-            if(count < cardCount){
-
-                animateHide(shownWord)
-                shownWord.text = flashcardList[count].shownWord
-                animateShow(shownWord)
-
-                if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
-            } else {
-                Log.e("CORRECT", correctAnswers.toString())
-                val resultFragment = ResultFragment()
-                resultFragment.score = correctAnswers
-                if(endless) resultFragment.maxScore = countGuessed
-                else resultFragment.maxScore = cardCount
-                activity!!.supportFragmentManager.beginTransaction()
-                    ?.setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
-                    .replace(R.id.main_container, resultFragment)
-                    .commit()
-            }
-        }
-    }
-
-    private fun onNotCorrectAnswer(){
-        count++
-        if(endless && count == cardCount) {
-            count = 0
-            val randomValue = kotlin.random.Random.nextLong(1000000, 100000000)
-            if(random) flashcardList = flashcardList.shuffled(Random(randomValue))
-        }
-        if (count < cardCount) {
-
-            animateHide(shownWord)
-            shownWord.text = flashcardList[count].shownWord
-            animateShow(shownWord)
-            animateHide(hiddenWordText)
-            hiddenWordText.text = "Tap here to check"
-            animateShow(hiddenWordText)
-
-            if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
-        } else {
-            val resultFragment = ResultFragment()
-            resultFragment.score = correctAnswers
-            if(endless) resultFragment.maxScore = countGuessed
-            else resultFragment.maxScore = cardCount
-            activity!!.supportFragmentManager.beginTransaction()
-                ?.setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
-                .replace(R.id.main_container, resultFragment)
-                .commit()
-        }
-    }
-
-    private fun onHiddenClick(){
-        cardCount = flashcardList.size
-        if(typing) {
-
-            animateHide(shownWord)
-            shownWord.text = flashcardList[count].shownWord
-            animateShow(shownWord)
-            if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
-
-            animateHide(hiddenWordText)
-            hiddenWordText.isGone = true
-
-            animateShow(enterText)
-            enterText.isGone = false
-
-            if(endless){
-                animateShow(endButton)
-                endButton.isGone = false
-                animateShow(typingCorrectButton)
-                typingCorrectButton.isGone = false
-            } else {
-                animateShow(playCorrectTypingOnly)
-                playCorrectTypingOnly.isGone = false
-            }
-
-            animateHide(notCorrectButton)
-            notCorrectButton.isGone = true
-
-            animateHide(correctButton)
-            correctButton.isGone = true
-
-        } else if(!typing){
-            if(count < cardCount){
-                if(firstHiddenUse){
-
-                    if(endless){
-                        animateShow(endButtonNotTyping)
-                        endButtonNotTyping.isGone = false
-
-                        animateShow(correctButton)
-                        correctButton.isGone = false
-
-                        animateShow(notCorrectButton)
-                        notCorrectButton.isGone = false
-                    } else {
-                        animateShow(playNotCorrectNotTypingNotEndless)
-                        playNotCorrectNotTypingNotEndless.isGone = false
-
-                        animateShow(playCorrectNotTypingNotEndless)
-                        playCorrectNotTypingNotEndless.isGone = false
-                    }
-
-
-                    Log.e("HIDDENCLICKED", "FIRSTTIME")
-
-                    animateHide(shownWord)
-                    shownWord.text = flashcardList[count].shownWord
-                    animateShow(shownWord)
-
-                    hiddenWordText.text = "Tap here to check"
-                    if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
-                    hiddenClicked = false
-                    firstHiddenUse = false
-                } else {
-                    if (!hiddenClicked) {
-                        Log.e("HIDDENCLICKED", "FALSE")
-
-                        shownWord.text = flashcardList[count].shownWord
-
-                        animateHide(hiddenWordText)
-                        hiddenWordText.text = flashcardList[count].hiddenWord
-                        animateShow(hiddenWordText)
-
-                        if(!endless) countText.text = (count + 1).toString() + "/" + cardCount.toString()
-                        hiddenClicked = true
-                    } else {
-                        Log.e("HIDDENCLICKED", "TRUE")
-                        animateHide(hiddenWordText)
-                        hiddenWordText.text = "Tap here to check"
-                        animateShow(hiddenWordText)
-                        hiddenClicked = false
-                    }
-                }
-            } else {
-                Log.e("HIDDENCLICKED", "???")
-                hiddenWordText.text = flashcardList[count].hiddenWord
-            }
-        }
-    }
-
-    private fun setNewFlashcardList(list: List<FlashcardEntity>){
-        flashcardList = list
     }
 
     private fun animateShow(view: View){
