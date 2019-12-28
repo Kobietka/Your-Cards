@@ -17,6 +17,7 @@ import dev.kobietka.flashcards.presentation.ui.common.BaseFragment
 import dev.kobietka.flashcards.presentation.ui.common.ClickInfo
 import dev.kobietka.flashcards.presentation.ui.fragmentmain.MainFragment
 import dev.kobietka.flashcards.presentation.ui.rvs.FlashcardEditAdapter
+import dev.kobietka.flashcards.presentation.viewmodel.EditListViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -27,13 +28,13 @@ class EditListFragment: BaseFragment() {
     @Inject lateinit var launchEvents: Observable<ClickInfo>
     @Inject lateinit var listDao: CardListDao
     @Inject lateinit var flashcardDao: FlashcardDao
+    @Inject lateinit var adapter: FlashcardEditAdapter
+    @Inject lateinit var editListViewModel: EditListViewModel
     val compositeDisposable = CompositeDisposable()
 
     lateinit var recyclerView: RecyclerView
-    @Inject lateinit var adapter: FlashcardEditAdapter
 
     var listId = 0
-    var flashcardsCount = 0
 
     lateinit var closeButton: ImageButton
     lateinit var addButton: Button
@@ -55,30 +56,55 @@ class EditListFragment: BaseFragment() {
         typingSwitch = view.findViewById(R.id.switch_typing_edit)
         shownWord = view.findViewById(R.id.text_shown_word_edit)
         hiddenWord = view.findViewById(R.id.text_hidden_word_edit)
+        addButton = view.findViewById(R.id.button_add_flashcard_edit)
+        closeButton = view.findViewById(R.id.button_cancel_edit_list)
+        saveButton = view.findViewById(R.id.button_save_list)
+
+        recyclerView = view.findViewById(R.id.recycler_edit_list_edit)
+        recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+        recyclerView.adapter = adapter
 
         compositeDisposable.add(
             launchEvents.flatMapMaybe {
                 listDao.findById(it.listId)
             }.subscribe {
-                listId = it.id!!
-                listNameEditText.setText(it.name)
-                endlessSwitch.isChecked = it.endless
-                randomSwitch.isChecked = it.randomOrder
-                typingSwitch.isChecked = it.typingAnswer
+                editListViewModel.setID(it.id!!)
+                adapter.listId = it.id!!
             }
         )
 
-        recyclerView = view.findViewById(R.id.recycler_edit_list_edit)
-        recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-        recyclerView.adapter = adapter
-        adapter.setCardListId(listId)
+        compositeDisposable.add(
+            editListViewModel.listName.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    listNameEditText.setText(it)
+                }
+        )
 
-        addButton = view.findViewById(R.id.button_add_flashcard_edit)
-        closeButton = view.findViewById(R.id.button_cancel_edit_list)
-        saveButton = view.findViewById(R.id.button_save_list)
+        compositeDisposable.add(
+            editListViewModel.typing.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    typingSwitch.isChecked = it
+                }
+        )
+
+        compositeDisposable.add(
+            editListViewModel.random.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe {
+                    randomSwitch.isChecked = it
+                }
+        )
+
 
         saveButton.setOnClickListener {
-            updateList(listId)
+            editListViewModel.saveList(
+                listNameEditText.text.toString(),
+                endlessSwitch.isChecked,
+                typingSwitch.isChecked,
+                randomSwitch.isChecked
+            )
 
             val fragment = activity!!.supportFragmentManager.findFragmentByTag("mainFragment")
             activity!!.supportFragmentManager.beginTransaction()
@@ -88,17 +114,11 @@ class EditListFragment: BaseFragment() {
         }
 
         addButton.setOnClickListener {
-            flashcardsCount++
-            flashcardDao.insertFlashcard(
-                FlashcardEntity(
-                    null,
-                    shownWord.text.toString(),
-                    hiddenWord.text.toString(),
-                    listId
-                )
-            ).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::clearEditTexts)
+            editListViewModel.addFlashcard(
+                shownWord.text.toString(),
+                hiddenWord.text.toString()
+            )
+            clearEditTexts()
         }
 
         closeButton.setOnClickListener {
@@ -108,25 +128,6 @@ class EditListFragment: BaseFragment() {
                 .replace(R.id.main_container, fragment!!)
                 .commit()
         }
-    }
-
-    private fun updateList(oldId: Int){
-        listDao.updateListName(oldId, listNameEditText.text.toString())
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
-        listDao.updateListEndless(oldId, endlessSwitch.isChecked)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
-        listDao.updateListRandom(oldId, randomSwitch.isChecked)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
-        listDao.updateListTyping(oldId, typingSwitch.isChecked)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
     }
 
     private fun clearEditTexts(){
