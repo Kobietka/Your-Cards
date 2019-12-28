@@ -36,9 +36,6 @@ interface CardListDao {
     @Query("UPDATE cardList SET name = :name WHERE id = :id")
     fun updateListName(id: Int, name: String): Completable
 
-    @Query("UPDATE cardList SET count = :count WHERE id = :id")
-    fun updateListCount(id: Int, count: Int): Completable
-
     @Query("UPDATE cardList SET endless = :endless WHERE id = :id")
     fun updateListEndless(id: Int, endless: Boolean): Completable
 
