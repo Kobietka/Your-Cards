@@ -81,11 +81,11 @@ class EditListFragment: BaseFragment() {
         saveButton.setOnClickListener {
             updateList(listId)
 
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
-                ?.replace(R.id.main_container, MainFragment())
-                ?.addToBackStack(null)
-                ?.commit()
+            val fragment = activity!!.supportFragmentManager.findFragmentByTag("mainFragment")
+            activity!!.supportFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
+                .replace(R.id.main_container, fragment!!)
+                .commit()
         }
 
         addButton.setOnClickListener {
@@ -103,11 +103,11 @@ class EditListFragment: BaseFragment() {
         }
 
         closeButton.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.setCustomAnimations(R.anim.enter_top_to_bottom, R.anim.exit_top_to_bottom)
-                ?.replace(R.id.main_container, MainFragment())
-                ?.addToBackStack(null)
-                ?.commit()
+            val fragment = activity!!.supportFragmentManager.findFragmentByTag("mainFragment")
+            activity!!.supportFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
+                .replace(R.id.main_container, fragment!!)
+                .commit()
         }
     }
 

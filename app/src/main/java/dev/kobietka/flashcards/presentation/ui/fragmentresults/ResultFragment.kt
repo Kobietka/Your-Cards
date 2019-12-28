@@ -1,9 +1,7 @@
 package dev.kobietka.flashcards.presentation.ui.fragmentresults
 
 import android.animation.ObjectAnimator
-import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.RelativeLayout
@@ -11,7 +9,6 @@ import android.widget.TextView
 import androidx.core.view.isGone
 import dev.kobietka.flashcards.R
 import dev.kobietka.flashcards.presentation.ui.common.BaseFragment
-import dev.kobietka.flashcards.presentation.ui.fragmentmain.MainFragment
 
 class ResultFragment : BaseFragment() {
 
@@ -19,8 +16,6 @@ class ResultFragment : BaseFragment() {
     private lateinit var scoreText: TextView
     private lateinit var backButton: RelativeLayout
     private lateinit var staticText: TextView
-    var score = 0
-    var maxScore = 0
     var ratio = 0.0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -68,13 +63,11 @@ class ResultFragment : BaseFragment() {
         backButton.isGone = false
 
         backButton.setOnClickListener {
-            Log.e("SCORE", score.toString())
-            Log.e("MAXSCORE", maxScore.toString())
-            Log.e("SCORE?MAX",(score.toDouble()/maxScore).toString() )
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.setCustomAnimations(R.anim.enter_left_to_right, R.anim.exit_left_to_right)
-                ?.replace(R.id.main_container, MainFragment())
-                ?.commit()
+            val fragment = activity!!.supportFragmentManager.findFragmentByTag("mainFragment")
+            activity!!.supportFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
+                .replace(R.id.main_container, fragment!!)
+                .commit()
         }
     }
 

@@ -21,7 +21,7 @@ class MainActivity : BaseActivity() {
         setContentView(R.layout.activity_main)
         presentationComponent.inject(this)
         supportFragmentManager.beginTransaction()
-            .add(R.id.main_container, MainFragment())
+            .add(R.id.main_container, MainFragment(), "mainFragment")
             .commit()
         compositeDisposable.add(
             launchEvents.subscribe(this::launch)

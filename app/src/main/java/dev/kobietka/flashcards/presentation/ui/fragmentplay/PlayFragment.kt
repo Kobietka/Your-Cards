@@ -3,6 +3,7 @@ package dev.kobietka.flashcards.presentation.ui.fragmentplay
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.view.isGone
@@ -123,15 +124,12 @@ class PlayFragment : BaseFragment() {
                 .subscribe {
                     if(it){
                         answerIndicator.setImageDrawable(resources.getDrawable(R.drawable.ic_check_circle_24px))
-                        animateShow(answerIndicator)
-                        answerIndicator.isGone = false
-                        animateHide(answerIndicator)
                     } else {
                         answerIndicator.setImageDrawable(resources.getDrawable(R.drawable.ic_cancel_24px))
-                        animateShow(answerIndicator)
-                        answerIndicator.isGone = false
-                        animateHide(answerIndicator)
                     }
+                    animateShow(answerIndicator)
+                    answerIndicator.isGone = false
+                    animateHide(answerIndicator)
                 }
         )
 
@@ -144,9 +142,10 @@ class PlayFragment : BaseFragment() {
                             "Cannot start because the list is empty!",
                             Snackbar.LENGTH_LONG)
                         snackbar.show()
+                        val fragment = activity!!.supportFragmentManager.findFragmentByTag("mainFragment")
                         activity!!.supportFragmentManager.beginTransaction()
                             .setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
-                            .replace(R.id.main_container, MainFragment())
+                            .replace(R.id.main_container, fragment!!)
                             .commit()
                     }
                 }
@@ -253,10 +252,11 @@ class PlayFragment : BaseFragment() {
         }
 
         closeButton.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.setCustomAnimations(R.anim.enter_top_to_bottom, R.anim.exit_top_to_bottom)
-                ?.replace(R.id.main_container, MainFragment())
-                ?.commit()
+            val fragment = activity!!.supportFragmentManager.findFragmentByTag("mainFragment")
+            activity!!.supportFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
+                .replace(R.id.main_container, fragment!!)
+                .commit()
         }
 
     }
