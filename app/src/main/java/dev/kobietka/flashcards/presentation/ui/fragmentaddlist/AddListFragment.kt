@@ -20,7 +20,9 @@ import dev.kobietka.flashcards.data.FlashcardEntity
 import dev.kobietka.flashcards.presentation.ui.common.BaseFragment
 import dev.kobietka.flashcards.presentation.ui.fragmentmain.MainFragment
 import dev.kobietka.flashcards.presentation.ui.rvs.FlashcardAdapter
+import dev.kobietka.flashcards.presentation.viewmodel.AddListViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
@@ -37,13 +39,12 @@ class AddListFragment : BaseFragment() {
     lateinit var typingSwitch: SwitchCompat
     lateinit var createButton: Button
 
-    var listId: Long = 0
-    var flashcardsCount = 0
-
     lateinit var recyclerView: RecyclerView
+    val compositeDisposable = CompositeDisposable()
     @Inject lateinit var adapter: FlashcardAdapter
     @Inject lateinit var listDao: CardListDao
     @Inject lateinit var flashcardDao: FlashcardDao
+    @Inject lateinit var addListViewModel: AddListViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,19 +65,21 @@ class AddListFragment : BaseFragment() {
         shownWord = view.findViewById(R.id.text_shown_word)
         hiddenWord = view.findViewById(R.id.text_hidden_word)
 
+        compositeDisposable.add(
+            addListViewModel.listId.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe{
+                    adapter.setCardListId(it)
+                }
+        )
+
         createButton.setOnClickListener {
-            val newID = listDao.insertList(CardListEntity(
-                null,
+            addListViewModel.createList(
                 listName.text.toString(),
-                flashcardsCount,
                 endlessSwitch.isChecked,
                 typingSwitch.isChecked,
                 randomSwitch.isChecked
-            ))
-            setId(newID)
-
-            Log.e("LISTID", newID.toString())
-            adapter.setCardListId(listId.toInt())
+            )
 
             animateShow(saveButton)
             saveButton.isGone = false
@@ -98,7 +101,12 @@ class AddListFragment : BaseFragment() {
         }
 
         saveButton.setOnClickListener {
-            updateList(listId.toInt())
+            addListViewModel.saveList(
+                listName.text.toString(),
+                endlessSwitch.isChecked,
+                typingSwitch.isChecked,
+                randomSwitch.isChecked
+            )
             val fragment = activity!!.supportFragmentManager.findFragmentByTag("mainFragment")
             activity!!.supportFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
@@ -107,25 +115,14 @@ class AddListFragment : BaseFragment() {
         }
 
         addFlashcardButton.setOnClickListener {
-            flashcardsCount++
-            flashcardDao.insertFlashcard(
-                FlashcardEntity(
-                null,
+            addListViewModel.addFlashcard(
                 shownWord.text.toString(),
-                hiddenWord.text.toString(),
-                listId.toInt()
-            )).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::clearEditTexts)
+                hiddenWord.text.toString()
+            )
+            clearEditTexts()
         }
 
         cancelButton.setOnClickListener {
-
-            //Deleting list when no cards were added and close button was clicked
-            if(flashcardsCount == 0) listDao.deleteById(listId.toInt())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()
             val fragment = activity!!.supportFragmentManager.findFragmentByTag("mainFragment")
             activity!!.supportFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.exit_right_to_left, R.anim.enter_right_to_left)
@@ -138,36 +135,9 @@ class AddListFragment : BaseFragment() {
         return R.layout.fragment_add_list
     }
 
-    private fun updateList(oldId: Int){
-        listDao.updateListName(oldId, listName.text.toString())
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
-        listDao.updateListCount(oldId, flashcardsCount)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
-        listDao.updateListEndless(oldId, endlessSwitch.isChecked)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
-        listDao.updateListRandom(oldId, randomSwitch.isChecked)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
-        listDao.updateListTyping(oldId, typingSwitch.isChecked)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
-    }
-
     private fun clearEditTexts(){
         shownWord.text.clear()
         hiddenWord.text.clear()
-    }
-
-    private fun setId(id: Long){
-        listId = id
     }
 
     private fun animateShow(view: View){

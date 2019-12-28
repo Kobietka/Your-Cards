@@ -62,7 +62,6 @@ class EditListFragment: BaseFragment() {
             }.subscribe {
                 listId = it.id!!
                 listNameEditText.setText(it.name)
-                flashcardsCount = it.count
                 endlessSwitch.isChecked = it.endless
                 randomSwitch.isChecked = it.randomOrder
                 typingSwitch.isChecked = it.typingAnswer
@@ -113,10 +112,6 @@ class EditListFragment: BaseFragment() {
 
     private fun updateList(oldId: Int){
         listDao.updateListName(oldId, listNameEditText.text.toString())
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe()
-        listDao.updateListCount(oldId, flashcardsCount)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe()
