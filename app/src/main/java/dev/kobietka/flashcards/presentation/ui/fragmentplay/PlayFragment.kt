@@ -1,9 +1,7 @@
 package dev.kobietka.flashcards.presentation.ui.fragmentplay
 
 import android.animation.ObjectAnimator
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.core.view.isGone
@@ -13,7 +11,6 @@ import dev.kobietka.flashcards.data.CardListDao
 import dev.kobietka.flashcards.data.FlashcardDao
 import dev.kobietka.flashcards.presentation.ui.common.BaseFragment
 import dev.kobietka.flashcards.presentation.ui.common.ClickInfo
-import dev.kobietka.flashcards.presentation.ui.fragmentmain.MainFragment
 import dev.kobietka.flashcards.presentation.ui.fragmentresults.ResultFragment
 import dev.kobietka.flashcards.presentation.viewmodel.PlayViewModel
 import io.reactivex.disposables.CompositeDisposable

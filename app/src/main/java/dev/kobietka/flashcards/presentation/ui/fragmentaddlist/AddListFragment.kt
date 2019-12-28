@@ -2,7 +2,6 @@ package dev.kobietka.flashcards.presentation.ui.fragmentaddlist
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
@@ -14,11 +13,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import dev.kobietka.flashcards.R
 import dev.kobietka.flashcards.data.CardListDao
-import dev.kobietka.flashcards.data.CardListEntity
 import dev.kobietka.flashcards.data.FlashcardDao
-import dev.kobietka.flashcards.data.FlashcardEntity
 import dev.kobietka.flashcards.presentation.ui.common.BaseFragment
-import dev.kobietka.flashcards.presentation.ui.fragmentmain.MainFragment
 import dev.kobietka.flashcards.presentation.ui.rvs.FlashcardAdapter
 import dev.kobietka.flashcards.presentation.viewmodel.AddListViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers

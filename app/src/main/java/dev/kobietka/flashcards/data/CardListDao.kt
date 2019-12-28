@@ -4,7 +4,6 @@ import androidx.room.*
 import io.reactivex.Observable
 import io.reactivex.Completable
 import io.reactivex.Maybe
-import io.reactivex.Single
 
 @Dao
 interface CardListDao {

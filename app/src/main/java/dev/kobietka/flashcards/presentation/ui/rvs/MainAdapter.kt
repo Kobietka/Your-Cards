@@ -1,21 +1,16 @@
 package dev.kobietka.flashcards.presentation.ui.rvs
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.core.view.isGone
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import dev.kobietka.flashcards.R
 import dev.kobietka.flashcards.data.CardListDao
 import dev.kobietka.flashcards.presentation.onclickhandler.OnClickHandler
-import dev.kobietka.flashcards.presentation.ui.fragmenteditlist.EditListFragment
 import dev.kobietka.flashcards.presentation.viewmodel.ListViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.android.synthetic.main.entry_list.view.*
 import javax.inject.Inject
 import javax.inject.Provider
 

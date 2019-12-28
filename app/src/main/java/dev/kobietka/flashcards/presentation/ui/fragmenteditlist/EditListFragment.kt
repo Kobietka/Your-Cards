@@ -12,10 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.kobietka.flashcards.R
 import dev.kobietka.flashcards.data.CardListDao
 import dev.kobietka.flashcards.data.FlashcardDao
-import dev.kobietka.flashcards.data.FlashcardEntity
 import dev.kobietka.flashcards.presentation.ui.common.BaseFragment
 import dev.kobietka.flashcards.presentation.ui.common.ClickInfo
-import dev.kobietka.flashcards.presentation.ui.fragmentmain.MainFragment
 import dev.kobietka.flashcards.presentation.ui.rvs.FlashcardEditAdapter
 import dev.kobietka.flashcards.presentation.viewmodel.EditListViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -33,8 +31,6 @@ class EditListFragment: BaseFragment() {
     val compositeDisposable = CompositeDisposable()
 
     lateinit var recyclerView: RecyclerView
-
-    var listId = 0
 
     lateinit var closeButton: ImageButton
     lateinit var addButton: Button
@@ -69,7 +65,7 @@ class EditListFragment: BaseFragment() {
                 listDao.findById(it.listId)
             }.subscribe {
                 editListViewModel.setID(it.id!!)
-                adapter.listId = it.id!!
+                adapter.listId = it.id
             }
         )
 

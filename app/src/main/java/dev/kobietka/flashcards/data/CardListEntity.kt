@@ -3,7 +3,6 @@ package dev.kobietka.flashcards.data
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import dev.kobietka.flashcards.domain.models.Flashcard
 
 @Entity(tableName = "cardList")
 data class CardListEntity(@PrimaryKey(autoGenerate = true) val id: Int?,

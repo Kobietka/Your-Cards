@@ -17,7 +17,6 @@ class AddListViewModel
     val id = BehaviorSubject.create<Int>().toSerialized()
 
     var listID: Long = 0
-    var flashcardCount = 0
 
     fun createList(listName: String, endless: Boolean, typing: Boolean, random: Boolean){
         listID = listDao.insertList(CardListEntity(
