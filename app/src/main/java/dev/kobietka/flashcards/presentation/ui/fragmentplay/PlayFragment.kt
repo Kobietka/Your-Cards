@@ -189,9 +189,7 @@ class PlayFragment : BaseFragment() {
             viewModel.listName.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe {
-                    animateHide(listName)
                     listName.text = it
-                    animateShow(listName)
                 }
         )
 

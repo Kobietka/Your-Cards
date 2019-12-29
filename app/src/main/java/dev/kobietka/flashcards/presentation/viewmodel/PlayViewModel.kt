@@ -101,9 +101,9 @@ class PlayViewModel
             flashcardList[position].hiddenWord
         }
 
-    val count: Observable<Int>
+    val count: Observable<String>
         get() = cards.map {
-            it + 1
+            (it + 1).toString() + "/${flashcardList.size}"
         }
 
     val listName: Observable<String>
@@ -112,14 +112,10 @@ class PlayViewModel
         }
 
     val runnable: Observable<Boolean>
-        get() = stop.map {
-            it
-        }
+        get() = stop
 
     val isTyping: Observable<Boolean>
-        get() = typing.map {
-            it
-        }
+        get() = typing
 
     val resultValue: Observable<Double>
         get() = result.map {
@@ -127,9 +123,7 @@ class PlayViewModel
         }
 
     val isAnswerCorrect: Observable<Boolean>
-        get() = answer.map {
-            it
-        }
+        get() = answer
 
     private fun setCardList(cardList: CardListEntity){
         cardListEntity = cardList
