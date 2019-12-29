@@ -82,8 +82,6 @@ class PlayViewModel
     }
 
     fun checkAnswer(typedAnswer: String){
-        Log.e("TYPEDANSWER", typedAnswer)
-        Log.e("HIDDEN", flashcardList[currentPosition - 1].hiddenWord)
         if(typedAnswer == flashcardList[currentPosition - 1].hiddenWord){
             answer.onNext(true)
             correctAnswers++
